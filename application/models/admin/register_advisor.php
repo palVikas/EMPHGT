@@ -22,8 +22,8 @@ class Register_advisor extends CI_model
 		$register=$reg->HRM_REG_NO+1;
 		$details=array
 			(
-				'HRM_TYPE_ID'=>$data['hrm_type'],
-				'RANK_ID'=>$data['rank'],
+				'HRM_TYPE_ID'=>1,
+				'RANK_ID'=>5,
 				'HRM_TITLE'=>$data['title'],
 				'HRM_FIRST_NAME'=>$data['fname'],
 				'HRM_MIDDLE_NAME'=>$data['mname'],
@@ -54,11 +54,13 @@ class Register_advisor extends CI_model
 
 			$this->db->insert('hrm',$details);
 
+			$hrm_last_id=$this->db->insert_id();
+
 			$relation=array
 						(
-							'NEW_HRM_ID'=>$register,
-							'HRM_PARENT_ID'=>$data['under'],
-							'HRM_ADDED_BY'=>$data['under']
+							'NEW_HRM_ID'=>$hrm_last_id,
+							'HRM_PARENT_ID'=>4,
+							'HRM_ADDED_BY'=>4
 						);
 
 			$this->db->insert('hrm_relation',$relation);

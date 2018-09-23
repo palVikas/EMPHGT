@@ -44,6 +44,7 @@ class Login extends CI_controller
 			}
 			else
 			{
+				$_SESSION['agro_p_signed_in'] = TRUE;
 				$_SESSION['user']=$user;
 				$_SESSION['branch']=$query->row()->BRANCH_ID;
 				echo "<script>alert('Welcome');window.location='../branch/index'</script>";	

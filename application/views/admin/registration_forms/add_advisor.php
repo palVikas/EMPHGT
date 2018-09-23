@@ -66,7 +66,7 @@
 													</div>
 												</div>
 																								
-												<div class="row" id="adv">
+												<!--<div class="row" id="adv">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">rank</label>
 														<select name="rank" class="form-control" id="rnk">
@@ -78,10 +78,10 @@
 														<select name="under" class="form-control" id="und">
 																	
 														</select>
-													</div>
+													</div>-->
 
 
-												</div>
+											
 
 												<div class="form-body">
 													<br><br>

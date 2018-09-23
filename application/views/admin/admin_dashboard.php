@@ -211,7 +211,7 @@ if (1==1)
 				}
 				else
 				{
-					//alert(option);
+					dashboard();
 				}
 			});
 			
@@ -222,7 +222,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
-
+						$("#main_content").html(result);
 					},
 					error:function()
 					{

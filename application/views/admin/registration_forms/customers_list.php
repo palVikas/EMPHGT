@@ -115,11 +115,15 @@
 							{"data":"HRM_REG_NO"},
 							{"data":"HRM_FIRST_NAME"},
 							{"data":"sum"},
-							{"data":"HRM_ID"},
+							{"data":"HRM_ADDRESS"},
 							{"data":"HRM_REG_NO",render:function(data,type,row)
 								{	
-									return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
-								}
+									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
+									return "<div class='dropdown'><button class='btn btn-sm btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>options<span class='caret'></span></button> <ul class='dropdown-menu'>"+
+									     '<li><a href="javascript:pay('+data+')">pay</a></li>'+
+									      '<li><a href="javascript:view_details('+data+')">details</a></li>'+
+									    '</ul></div>'
+																	}
 							}
 							
 							
@@ -144,9 +148,16 @@
 					},
 					error:function(result)
 					{
+
 						alert(result);
 					}
 				});
+			}
+
+			function view_details(data)
+			{
+				window.location='<?php echo base_url("admin/customer_details/"); ?>'+data;
+				alert(data);
 			}
 		
 		</script>

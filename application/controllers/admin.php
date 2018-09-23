@@ -15,7 +15,7 @@ class Admin extends CI_Controller
 	}
 	public function dashboard()
 	{
-
+		$this->load->view('admin/registration_forms/dashboard');
 	}
 	public function add_company()
 	{
@@ -76,13 +76,6 @@ class Admin extends CI_Controller
 
 		echo $this->datatables->generate();
 
-		//$data=$this->db->select("*")->from('hrm')
-		//							->where('HRM_TYPE_ID',4)
-		//							->join('wallet_balance','wallet_balance.HRM_ID=hrm.HRM_ID')
-		//							->group_by('wallet_balance.HRM_ID')
-		//							->get()->result();
-		//echo json_encode($data);
-
 	}
 	public function super_adviser()
 	{
@@ -137,6 +130,17 @@ class Admin extends CI_Controller
 	{
 		$this->load->model('activate');
 		$this->activate->activate_plan();
+	}
+
+	public function customer_details()
+	{
+		$hrm_id=$this->uri->segment(3);
+		$data=$this->db->select('*')->from('hrm')->where('HRM_ID',$hrm_id)
+									->join('plan_activation','plan_activation.CUSTOMER_ID=hrm.HRM_ID')
+									->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
+									->get()->row();
+
+		print_r($data);							
 	}
 	
 }
