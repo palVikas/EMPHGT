@@ -37,7 +37,7 @@
 
 								foreach ($data as $d) 
 								{
-									echo "<option valuue'".$d->HRM_ID."'>".$d->HRM_FIRST_NAME."</option>";
+									echo "<option value='".$d->HRM_ID."'>".$d->HRM_FIRST_NAME."</option>";
 								}
 
 
@@ -45,8 +45,12 @@
 						</select>										
 					</div>	
 					<div class="form-group col-md-4 col-sm-6">
-						<label class="control-label mb-10 text-left">DATE</label>
-						<input type="date" name="date" id="date" class="form-control">
+						<label class="control-label mb-10 text-left">START DATE</label>
+						<input type="date" name="start_date" id="start_date" class="form-control">
+					</div>	
+					<div class="form-group col-md-4 col-sm-6">
+						<label class="control-label mb-10 text-left">END DATE</label>
+						<input type="date" name="end_date" id="end_date" class="form-control">
 					</div>	
 				</div>
 
@@ -152,6 +156,12 @@
 											<tbody>
 											</tbody>
 											<tfoot>
+												<tr>
+													<td>Amount</td>
+													<td colspan="2">
+														<span id="TotalAmount"></span>
+													</td>
+												</tr>
 											</tfoot>
 										</table>
 									</div>
@@ -165,14 +175,15 @@
 
 
 		<script type="text/javascript">
-			
-			function get_table(type,data)
-			{
-				var table=$('#tbl').dataTable(
+			var tbl={tbl:null};
+			get_table({type:0,data:0});
+			function get_table(data)
+			{ 
+				tbl.tbl =$('#tbl').dataTable(
 				{
 				"ajax":{
 					"url":"<?php echo base_url('admin_dashboard/report'); ?>",
-					"data":{type:type,data:data},
+					"data":data,
 					"type":"post"
 					},
 				"columns":
@@ -183,29 +194,65 @@
 							{"data":"PLAN_NAME"},
 							{"data":"PLAN_EMI_AMOUNT"},
 							{"data":"PLAN_EMI_PERIOD"},
-							{"data":""}
+							{"data":"PLAN_EMI_PERIOD"}
 							
 							
-						]
+						],
+							"footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;  
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0;
+                    };
+
+                    // total_salary over all pages
+                    total_salary = api.column( 4 ).data().reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    },0 );
+
+                    // total_page_salary over this page
+                    total_page_salary = api.column( 4, { page: 'current'} ).data().reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                    total_page_salary = parseFloat(total_page_salary);
+                    total_salary = parseFloat(total_salary);
+                    // Update footer
+                    $('#TotalAmount').html(total_page_salary.toFixed(2));               
+                },
 					});
+				// console.log(tbl.tbl);
 			}
 				
 
-				$('#plan').on('change',function(){
+				$(document).on('change', '#plan' ,function(){
+					console.log(tbl.tbl);
+					tbl.tbl.fnDestroy();
 					var type=1;
 					var data=$('#plan').val();
-					get_table(type,data);
+					get_table({type:type,data:data});
 				});
 
-				$('#agent').on('change',function(){
+				$(document).on('change', '#agent', function(){
+					tbl.tbl.fnDestroy();
 					var type=2;
-					var data=$('#agent').val();
-					get_table(type,plan);
+					var data=$('#plan').val();
+					var adv = $('#agent').val();
+					get_table({type:type,data: data, adv:adv});
+					console.log(tbl.tbl);
 				});
 
-				$('#date').on('change',function(){
-					var type=3;
-					var data=$('#date').val();
-					get_table(type,plan);
+				$(document).on('change','#start_date,#end_date',function(){
+					if(new Date($('#start_date').val()) < new Date($('#end_date').val()))
+					{
+						tbl.tbl.fnDestroy();
+						var type=3;
+						var data=$('#plan').val();
+						var adv = $('#agent').val();
+						var date=$('#date').val();
+						get_table({type: type, data: data, adv: adv, date: date});
+					} else{
+						alert("Please Select A valid date range");
+					}
 				});
 		</script>		
