@@ -34,14 +34,10 @@
 		<div class="wrapper pa-0">
 			<header class="sp-header">
 				<div class="sp-logo-wrap pull-left">
-					<a href="index-2.html">
-						<img class="brand-img mr-10" src="include/img/logo.png" alt="brand"/>
-						<span class="brand-text">doodle</span>
-					</a>
+					
 				</div>
 				<div class="form-group mb-0 pull-right">
-					<span class="inline-block pr-10">Don't have an account?</span>
-					<a class="inline-block btn btn-info btn-rounded btn-outline" href="signup.html">Sign Up</a>
+					
 				</div>
 				<div class="clearfix"></div>
 			</header>
@@ -56,7 +52,7 @@
 								<div class="row">
 									<div class="col-sm-12 col-xs-12">
 										<div class="mb-30">
-											<h3 class="text-center txt-dark mb-10">Sign in to Doodle</h3>
+											<h3 class="text-center txt-dark mb-10">Sign in</h3>
 											<h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
 										</div>	
 										<div class="form-wrap">

@@ -81,8 +81,9 @@ class Login extends CI_controller
 			}
 			else
 			{				
-				$_SESSION['user']=$query->row()->HRM_ID;
-				$_SESSION['branch']=$query->row()->BRANCH_ID;
+				//$_SESSION['user']=$query->row()->HRM_ID;
+				//$_SESSION['branch']=$query->row()->BRANCH_ID;
+				$_SESSION['agro_p_signed_in']="admin";
 				echo "<script>alert('Successfully login');window.location='../admin/index'</script>";	
 			}
 		}

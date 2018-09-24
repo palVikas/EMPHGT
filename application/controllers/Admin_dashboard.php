@@ -9,7 +9,8 @@ class Admin_dashboard extends CI_Controller
 
 		$plan= empty($_POST['data']) ? false : $_POST['data'];
 		$advisor= empty($_POST['adv']) ? false : $_POST['adv'];
-		$date = empty($_POST['date']) ? false : $_POST['date'];
+		$start_date = empty($_POST['start_date']) ? false : $_POST['start_date'];
+		$end_date = empty($_POST['end_date']) ? false : $_POST['end_date'];
 		// var_dump($_POST);
 		
 			$this->datatables->select('*')->from('hrm')
@@ -26,9 +27,9 @@ class Admin_dashboard extends CI_Controller
 									  	$this->datatables->join('hrm_relation','hrm_relation.NEW_HRM_ID=hrm.HRM_ID')
 									  	->where('hrm_relation.HRM_ADDED_BY',$advisor);
 									  }
-									   if(!empty($date)){
+									   if(!empty($start_date) && !empty($end_date)){
 									  
-									  	$this->datatables->where('DATE(HRM_REG_DATE)',$date);
+									  	$this->datatables->where("DATE(HRM_REG_DATE)","BETWEEN {$start_date} AND {$end_date}");
 									  }
 									  // echo $this->datatables->last_query();exit;
 		echo $this->datatables->generate();

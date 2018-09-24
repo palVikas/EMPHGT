@@ -1,3 +1,184 @@
+<!--CUSTOMER DETAIL MODAL-->
+<div id="customer_detail_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+		    <div class="modal-header">
+		    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Customer Details</h4>
+		    </div>
+	    <div class="modal-body">
+	        <form action="<?php echo base_url('extra/commission_divide/new_function'); ?>" method="post">
+	        	<input type="hidden" name="hrm_id" id="hrm_id">
+	        	<input type="hidden" name="plan_act_id" id="plan_id">
+	        	
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>REGISTRATION NO : <span id="cust_reg_no"></span></p>
+						</div>
+					</div>
+	        	</div>
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>NAME : <span id="cust_name"></span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>PROFESSION : <span id="cust_profession"></span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>ADDRESS : <span id="cust_address"></span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>CONTACT : <span id="cust_contact"></span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>EMAIL : <span id="cust_email"></span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>PAN : <span id="cust_pan"></span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>AADHAR : <span id="cust_aadhar"></span></p>
+						</div>
+					</div>
+	        	</div>
+	        	
+	        	
+	        	<hr class="light-gray-hr">
+	        	
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>PLAN NAME : <span id="plan_name"></span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>AMOUNT : <span id="plan_amt"></span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>PERIOD : <span id="plan_duration"></span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>START DATE : <span id="plan_start_date"></span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>END DATE : <span id="plan_end_date">22-09-2020</span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<hr class="light-gray-hr">
+	        	
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>AGENT ID : <span id="agent_id">12345</span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>NAME : <span id="agent_name">PRIYANSHU RAWAT</span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>PROFESSION : <span id="agent_profession">DOCTOR</span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>ADDRESS : <span id="agent_address">BARRA</span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>CONTACT : <span id="agent_contact">8090245678</span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>EMAIL : <span id="agent_email">rp@gmail.com</span></p>
+						</div>
+					</div>
+	        	</div>
+
+	        	<div class="row">
+	        		<div class="col-md-6">
+						<div class="form-group">
+							<p>PAN : <span id="agent_pan">554398764532</span></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<p>AADHAR : <span id="agent_aadhar">445678902349</span></p>
+						</div>
+					</div>
+	        	</div>
+
+
+
+				<div class="row">
+					<div class="col-md-6">
+						<input type="submit" name="sub" class="btn btn-info btn-md">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+	        </form>
+	      </div>
+	    </div>
+     
+
+  </div>
+</div>
+
+
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -121,7 +302,7 @@
 									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
 									return "<div class='dropdown'><button class='btn btn-sm btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>options<span class='caret'></span></button> <ul class='dropdown-menu'>"+
 									     '<li><a href="javascript:pay('+data+')">pay</a></li>'+
-									      '<li><a href="javascript:view_details('+data+')">details</a></li>'+
+									      '<li><a href="<?php echo base_url('admin/view_customer_details/'); ?>'+data+'" target="blank">details</a></li>'+
 									    '</ul></div>'
 																	}
 							}
@@ -156,8 +337,8 @@
 
 			function view_details(data)
 			{
-				window.location='<?php echo base_url("admin/customer_details/"); ?>'+data;
-				alert(data);
+				window.location='<?php echo base_url('admin/view_customer_details/') ;?>'+data;
+				//$('#customer_detail_modal').modal();
 			}
 		
 		</script>

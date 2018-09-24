@@ -142,5 +142,45 @@ class Admin extends CI_Controller
 
 		print_r($data);							
 	}
+
+	public function view_customer_details()
+	{  // ye wala h
+		$hrm_id=$this->uri->segment(3);
+		$this->load->model('Getting_invoice_details');
+		$data['data']=$this->Getting_invoice_details->get_details($hrm_id);
+		//$this->load->view('admin/include/header');
+		$this->load->view('admin/customer_details',$data);
+		//$this->load->view('admin/include/footer');
+	}
+
+	public function get_invoice()
+	{//ye wala
+		$cust_id=$_SESSION['current_customer'];
+		$this->load->library('Datatables');
+
+		//$this->datatables->select('*')->from('hrm')
+									 // ->join('')		
+
+		$this->datatables->select('*,')->from('hrm')
+		                              ->join('hrm_relation','hrm.HRM_ID=hrm_relation.HRM_ADDED_BY')
+		                                ->join('wallet_balance','wallet_balance.HRM_ID=hrm_relation.NEW_HRM_ID')
+									  ->join('plan_activation','plan_activation.PLAN_ACTIVATION_ID=wallet_balance.PLAN_ACTIVATION_ID')
+								   	  ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
+								   	  ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')
+								   	 /// ->join('hrm_relation','hrm.HRM_ID=hrm_relation.HRM_ADDED_BY')
+								   	  //->join('hrm','hrm.HRM_ID=')
+								   	  ->where('wallet_balance.HRM_ID',$cust_id)
+								   	  ->where('wallet_balance.WALLET_AMOUNT >',0);
+
+		echo $this->datatables->generate();
+
+
+
+	}
+
+	public function print_invoice()
+	{
+		$this->load->view('invoice_details1');
+	}
 	
 }

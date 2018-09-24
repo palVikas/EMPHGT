@@ -85,6 +85,21 @@ class Commission_divide extends CI_Controller
 
 		$this->db->insert('wallet_balance',$wallet_details);
 
+		$this->invoice_view($hrm_id);
+		$this->load->view('header');
+		$this->load->view('invoice_details');
+		$this->load->view('footer');
 
+
+	}
+
+	public function invoice_view($data)
+	{
+		//$data=$_POST['data'];
+		$this->load->model('getting_invoice_details');
+		$details=$this->getting_invoice_details->get_details($data);
+		$this->load->view('header');
+		$this->load->view('invoice_details' , $details);
+		$this->load->view('footer');
 	}
 }

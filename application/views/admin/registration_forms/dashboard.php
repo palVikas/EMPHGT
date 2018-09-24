@@ -243,16 +243,19 @@
 				});
 
 				$(document).on('change','#start_date,#end_date',function(){
-					if(new Date($('#start_date').val()) < new Date($('#end_date').val()))
+					// if(new Date($('#start_date').val()) !== "" && new Date($('#end_date').val()) !== ""){
+					if(new Date($('#start_date').val()) <= new Date($('#end_date').val()))
 					{
 						tbl.tbl.fnDestroy();
 						var type=3;
 						var data=$('#plan').val();
 						var adv = $('#agent').val();
-						var date=$('#date').val();
-						get_table({type: type, data: data, adv: adv, date: date});
+						var start_date=$('#start_date').val();
+						var end_date=$('#end_date').val();
+						get_table({type: type, start_date: start_date, end_date: end_date, adv: adv, data: data});
 					} else{
 						alert("Please Select A valid date range");
 					}
+				// }
 				});
 		</script>		
