@@ -18,16 +18,26 @@ class Register_advisor extends CI_model
 
 	public function advisor($data)
 	{
-		$reg=$this->db->select_max('HRM_REG_NO')->get('hrm')->row();
-		$register=$reg->HRM_REG_NO+1;
+		$last_adv_id=$this->db->select_max('HRM_ID')->from('hrm')->where('HRM_TYPE_ID',1)->get()->row()->HRM_ID;
+		$last_adv_reg=$this->db->select('HRM_REG_NO')->from('hrm')->where('HRM_ID',$last_adv_id)->get()->row()->HRM_REG_NO;
+
+		$last_registration_no=(int)substr($last_adv_reg, -6);
+		$new_registration_no=(string)$last_registration_no+1;
+
+		$new_reg_no=(string)$this->generate_reg("","",6,$new_registration_no);
+		$rank=(string)$this->generate_reg("","",2,$data['rank']);
+		
+		$agent_code=strtoupper(substr($data['fname'], 0,1)).strtoupper(substr($data['lname'], 0,1));
+		$registration_no=$agent_code.$rank.$new_reg_no;
+
 		$details=array
 			(
 				'HRM_TYPE_ID'=>1,
-				'RANK_ID'=>5,
+				'RANK_ID'=>$data['rank'],
 				'HRM_TITLE'=>$data['title'],
-				'HRM_FIRST_NAME'=>$data['fname'],
-				'HRM_MIDDLE_NAME'=>$data['mname'],
-				'HRM_LAST_NAME'=>$data['lname'],
+				'HRM_FIRST_NAME'=>strtoupper($data['fname']),
+				'HRM_MIDDLE_NAME'=>strtoupper($data['mname']),
+				'HRM_LAST_NAME'=>strtoupper($data['lname']),
 				'HRM_ADDRESS'=>$data['address'],
 				'HRM_CITY'=>$data['city'],
 				'HRM_STATE'=>$data['city'],
@@ -48,7 +58,7 @@ class Register_advisor extends CI_model
 				//'HRM_CREDIT_LIMIT'=>$data['credit_lim'],
 				//'HRM_ACCOUNT_TYPE'=>$data['ac_type'],
 				'HRM_REG_DATE'=>$data['reg_date'],
-				'HRM_REG_NO'=>$register,
+				'HRM_REG_NO'=>$registration_no,
 				'PLAN_EMI_ID'=>0
 			);
 
@@ -56,11 +66,18 @@ class Register_advisor extends CI_model
 
 			$hrm_last_id=$this->db->insert_id();
 
+			$added_by=$data['sponser'];
+
+			if ($data['sponser']=="") 
+			{
+				$added_by=$hrm_last_id;
+			}
+
 			$relation=array
 						(
 							'NEW_HRM_ID'=>$hrm_last_id,
-							'HRM_PARENT_ID'=>4,
-							'HRM_ADDED_BY'=>4
+							'HRM_PARENT_ID'=>$added_by,
+							'HRM_ADDED_BY'=>$added_by
 						);
 
 			$this->db->insert('hrm_relation',$relation);
@@ -122,5 +139,17 @@ class Register_advisor extends CI_model
 			$this->db->insert('hrm_relation',$relation);
 
 			echo "<script>alert('inserted');window.location='index';</script>";
+	}
+
+	public function generate_reg($prefix,$rank,$length,$num)
+	{
+		$num_length=strlen($num);
+	 	$required_length=$length-$num_length;
+	 	$z="";
+	 	for ($i=0; $i <$required_length ; $i++) 
+	 	{ 
+	 		$z=$z."0";
+	 	}
+	 	return $prefix.$rank.$z.$num;
 	}
 }

@@ -11,14 +11,11 @@ class Admin_dashboard extends CI_Controller
 		$advisor= empty($_POST['adv']) ? false : $_POST['adv'];
 		$start_date = empty($_POST['start_date']) ? false : $_POST['start_date'];
 		$end_date = empty($_POST['end_date']) ? false : $_POST['end_date'];
-		// var_dump($_POST);
 		
-			$this->datatables->select('*')->from('hrm')
-									   ->join('plan_activation','plan_activation.CUSTOMER_ID=hrm.HRM_ID')
-									   ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
-									   ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')	
-									  //->join('wallet_balance','wallet_balance.HRM_ID=hrm.HRM_ID')
-								   	  //->group_by('wallet_balance.HRM_ID')						
+			$this->datatables->select('*,CONCAT(HRM_FIRST_NAME," ",HRM_MIDDLE_NAME," ",HRM_LAST_NAME) as name',FALSE)->from('hrm')
+									  ->join('plan_activation','plan_activation.CUSTOMER_ID=hrm.HRM_ID')
+									  ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
+									  ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')					
 									  ->where('hrm.HRM_TYPE_ID',4);
 									  if(!empty($plan)){
 									  	$this->datatables->where('plan.PLAN_ID',$plan);

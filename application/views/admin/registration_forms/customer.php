@@ -4,12 +4,12 @@
 						<!-- Title -->
 						<div class="row heading-bg">
 							<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-							  <h5 class="txt-dark">Staff</h5>
+							  <h5 class="txt-dark"></h5>
 							</div>
 							<!-- Breadcrumb -->
 							<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 							  <ol class="breadcrumb">
-								<li><a href="index-2.html">Staff</a></li>
+								<li><a href="index-2.html">Admin</a></li>
 								<li><a href="#"><span>Dashboard</span></a></li>
 								<li class="active"><span>Add customer</span></li>
 							  </ol>
@@ -29,37 +29,7 @@
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
 										<div class="form-wrap">
-											<form method="post" action="<?php echo base_url('admin/register_hrm'); ?>" enctype="multipart/form-data">
-												<!--<div class="row">
-													<div class="form-group col-md-6 col-sm-4">
-														<label class="control-label mb-10 text-left">Customer Type</label>
-														<select name="cust_type" class="form-control">
-															<option value="">--Select customer type--</option>
-															<?php															
-															//$query=$this->db->select("*")->from('hrm_type')->get()->result();
-															//foreach ($query as $row) 
-															{
-																//echo "<option value='".$row->HRM_TYPE_ID."'>".$row->HRM_TYPE_POST."</option>";
-															}
-
-															?>
-														</select>
-													</div>
-													<div class="form-group col-md-6 col-sm-4">
-														<label class="control-label mb-10 text-left">Customer Level </label>
-														<select name="cust_rank" class="form-control">
-															<option value="">--Select customer type--</option>
-															<?php															
-															$query=$this->db->select("*")->from('rank')->get()->result();
-															foreach ($query as $row) 
-															{
-																echo "<option value='".$row->RANK_ID."'>".$row->RANK_NAME."</option>";
-															}
-
-															?>
-														</select>
-													</div>
-												</div>-->
+											<form method="post" action="<?php echo base_url('admin/register_customer'); ?>" enctype="multipart/form-data">
 												<div class="row">												
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
@@ -134,8 +104,23 @@
 													</div>
 												</div>								
 
-												<div class="row">
+												<div class="row">													
 													<div class="form-group col-md-4 col-sm-6">
+														<label class="control-label mb-10 text-left">Contact no.</label>
+														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="cont">
+													</div>	
+													<div class="form-group col-md-4 col-sm-6">
+														<label class="control-label mb-10 text-left">Alt contact no.</label>
+														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="alt_cont">
+													</div>	
+													<div class="form-group col-md-4">
+														<label class="control-label mb-10 text-left">Email</label>
+														<input type="email" class="form-control" name="email" required>
+													</div>
+												</div>	
+
+												<div class="row">
+													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">City</label>
 														<select name="city" class="form-control" required>
 															<option value="">--select City--</option>
@@ -148,29 +133,12 @@
 															?>
 														</select>
 													</div>
-													<div class="form-group col-md-4 col-sm-6">
-														<label class="control-label mb-10 text-left">Contact no.</label>
-														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="cont">
-													</div>	
-													<div class="form-group col-md-4 col-sm-6">
-														<label class="control-label mb-10 text-left">Alt contact no.</label>
-														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="alt_cont">
-													</div>	
-
-												</div>	
-
-												<div class="row">
-													<div class="form-group col-md-4">
+													<div class="form-group col-md-6">
 														<label class="control-label mb-10 text-left">Registration date</label>
 														<input type="DATE" class="form-control" name="reg_date" required>
-													</div>
-
-													<div class="form-group col-md-4">
-														<label class="control-label mb-10 text-left">Email</label>
-														<input type="email" class="form-control" name="email" required>
-													</div>
+													</div>											
 													
-													<div class="form-group col-md-4">
+												<!--<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Upload photo</label>
 														<div class="fileinput fileinput-new input-group" data-provides="fileinput">
 															<div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
@@ -178,7 +146,7 @@
 															<input type="file" name="image" required="">
 															</span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
 														</div>
-													</div>
+													</div>-->
 												</div>
 
 												<div class="form-body">
@@ -193,7 +161,8 @@
 														<select name="ac_type" class="form-control" id="plan_type" required>
 															<option value="">--Select plan type--</option>
 														<?php 															
-															$q=$this->db->select("*")->from('plan_type')->get()->result();
+															$q=$this->db->select("*")->from('plan_type')
+															->where('PLAN_TYPE_ID !=',4)->get()->result();
 															foreach ($q as $row) 
 															{
 																echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
@@ -237,7 +206,7 @@
 
 												<div class="form-body">
 													<br><br>
-													<h6 class="txt-dark capitalize-font">Hrm details</h6>
+													<h6 class="txt-dark capitalize-font">Sponser details</h6>
 													<hr class="light-gray-hr">
 												</div>
 
@@ -250,7 +219,7 @@
 															$q=$this->db->select("*")->from('hrm')->where('HRM_TYPE_ID',1)->get()->result();
 															foreach ($q as $row) 
 															{
-																$name=$row->HRM_FIRST_NAME." ".$row->HRM_MIDDLE_NAME." ".$row->HRM_LAST_NAME;
+																$name=$row->HRM_TITLE." ".$row->HRM_FIRST_NAME." ".$row->HRM_MIDDLE_NAME." ".$row->HRM_LAST_NAME."(".$row->HRM_REG_NO.")";
 																echo "<option value='".$row->HRM_ID."'>".$name."</option>";
 															}
 															?>
@@ -271,7 +240,7 @@
 															$q=$this->db->select("*")->from('branch')->get()->result();
 															foreach ($q as $row) 
 															{
-																echo "<option value='".$row->BRANCH_ID."'>".$row->BRANCH_NAME."</option>";
+																echo "<option value='".$row->BRANCH_ID."'>".$row->BRANCH_NAME."(".$row->BRANCH_REG_NO.")"."</option>";
 															}
 															?>
 														</select>
@@ -295,7 +264,7 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">First name</label>
-														<input type="text" class="form-control" name="nom_fname" required>
+														<input type="text" class="form-control" name="nom_fname">
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">middle name</label>
@@ -310,11 +279,11 @@
 												<div class="row">														
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Aadhar</label>
-														<input type="number" class="form-control" name="nom_aadhar" required oninput="number(this)" maxlength="12">
+														<input type="number" class="form-control" name="nom_aadhar" oninput="number(this)" maxlength="12">
 													</div>	
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Relation with customer</label>
-														<input type="text" class="form-control" name="nom_relation" required>
+														<input type="text" class="form-control" name="nom_relation">
 													</div>
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Profession</label>
@@ -331,25 +300,13 @@
 													</div>													
 												</div>	
 
-
-												<div class="row">
-													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">Username</label>
-														<input type="text" class="form-control" name="user" required>
-													</div>	
-													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">password</label>
-														<input type="password" class="form-control" name="pass" required>
-													</div>	
-												</div>
-
 												<div class="row">
 													<div class="form-group col-md-12 col-sm-6">
 														<label class="control-label mb-10 text-left">Address</label>
 														<input type="text" class="form-control" name="nom_address" required>
 													</div>	
-												</div>				
-											
+												</div>	
+										
 												<div class="form-group mb-30">
 													<input class="btn btn-primary btn-md" type="submit" name="submit">
 												</div>
@@ -438,7 +395,7 @@
 								$("#add_under").html('<option value="">--Add under--</option>');
 								for(var x in result)
 								{
-									var name=result[x]['HRM_TITLE']+" "+result[x]['HRM_FIRST_NAME']+" "+result[x]['HRM_MIDDLE_NAME']+" "+result[x]['HRM_LAST_NAME'];
+									var name=result[x]['HRM_TITLE']+" "+result[x]['HRM_FIRST_NAME']+" "+result[x]['HRM_MIDDLE_NAME']+" "+result[x]['HRM_LAST_NAME']+"("+result[x]['HRM_REG_NO']+")";
 									$("#add_under").append("<option value='"+result[x]['HRM_ID']+"'>"+name+"</option>");
 								}
 							}

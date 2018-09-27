@@ -11,51 +11,8 @@
 		<br><br>
 
 
-		<div class="row">
-					<div class="form-group col-md-4 col-sm-6">
-						<label class="control-label mb-10 text-left">PLANS</label>
-						<select name="plan" id="plan" class="form-control">
-							<option value="">ALL</option>
-							<?php 
-								$data=$this->db->select('*')->from('plan')->where('PLAN_ID !=',0)->get()->result();
-
-								foreach ($data as $d) 
-								{
-									echo "<option value='".$d->PLAN_ID."'>".$d->PLAN_NAME."</option>";
-								}
-
-
-							?>	
-						</select>										
-					</div>
-					<div class="form-group col-md-4 col-sm-6">
-						<label class="control-label mb-10 text-left">AGENT</label>
-						<select name="agent" id="agent" class="form-control">
-							<option value="">ALL</option>
-							<?php 
-								$data=$this->db->select('*')->from('hrm')->where('HRM_TYPE_ID',1)->get()->result();
-
-								foreach ($data as $d) 
-								{
-									echo "<option value='".$d->HRM_ID."'>".$d->HRM_FIRST_NAME."</option>";
-								}
-
-
-							?>	
-						</select>										
-					</div>	
-					<div class="form-group col-md-4 col-sm-6">
-						<label class="control-label mb-10 text-left">START DATE</label>
-						<input type="date" name="start_date" id="start_date" class="form-control">
-					</div>	
-					<div class="form-group col-md-4 col-sm-6">
-						<label class="control-label mb-10 text-left">END DATE</label>
-						<input type="date" name="end_date" id="end_date" class="form-control">
-					</div>	
-				</div>
-
-			<!-- Row -->
-				<div class="row">
+		<!-- Row -->
+				<!--<div class="row">
 					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 						<div class="panel panel-default card-view pa-0">
 							<div class="panel-wrapper collapse in">
@@ -121,6 +78,52 @@
 					</div>
 				</div>-->
 				<!-- /Row -->
+
+
+		<div class="row">
+					<div class="form-group col-md-3 col-sm-6">
+						<label class="control-label mb-10 text-left">PLANS</label>
+						<select name="plan" id="plan" class="form-control">
+							<option value="">ALL</option>
+							<?php 
+								$data=$this->db->select('*')->from('plan')->where('PLAN_ID !=',0)->get()->result();
+
+								foreach ($data as $d) 
+								{
+									echo "<option value='".$d->PLAN_ID."'>".$d->PLAN_NAME."</option>";
+								}
+
+
+							?>	
+						</select>										
+					</div>
+					<div class="form-group col-md-3 col-sm-6">
+						<label class="control-label mb-10 text-left">AGENT</label>
+						<select name="agent" id="agent" class="form-control">
+							<option value="">ALL</option>
+							<?php 
+								$data=$this->db->select('*')->from('hrm')->where('HRM_TYPE_ID',1)->get()->result();
+
+								foreach ($data as $d) 
+								{
+									echo "<option value='".$d->HRM_ID."'>".$d->HRM_FIRST_NAME."</option>";
+								}
+
+
+							?>	
+						</select>										
+					</div>	
+					<div class="form-group col-md-3 col-sm-6">
+						<label class="control-label mb-10 text-left">START DATE</label>
+						<input type="date" name="start_date" id="start_date" class="form-control">
+					</div>	
+					<div class="form-group col-md-3 col-sm-6">
+						<label class="control-label mb-10 text-left">END DATE</label>
+						<input type="date" name="end_date" id="end_date" class="form-control">
+					</div>	
+				</div>
+
+			
 		
 
 
@@ -148,16 +151,15 @@
 													<th>NAME</th>
 													<th>ADDRESS</th>
 													<th>PLAN NAME</th>
-													<th>POLICY AMOUNT</th>
-													<th>INSTALLMENTS</th>	
-													<th>TOTAL</th>											
+													<th>INSTALLMENT AMOUNT</th>
+													<th>INSTALLMENTS</th>											
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 											<tfoot>
 												<tr>
-													<td>Amount</td>
+													<td>Total Amount</td>
 													<td colspan="2">
 														<span id="TotalAmount"></span>
 													</td>
@@ -189,16 +191,14 @@
 				"columns":
 						[
 							{"data":"HRM_REG_NO"},
-							{"data":"HRM_FIRST_NAME"},
+							{"data":"name"},
 							{"data":"HRM_ADDRESS"},
 							{"data":"PLAN_NAME"},
 							{"data":"PLAN_EMI_AMOUNT"},
-							{"data":"PLAN_EMI_PERIOD"},
-							{"data":"PLAN_EMI_PERIOD"}
-							
-							
+							{"data":"PLAN_EMI_PERIOD"}						
 						],
-							"footerCallback": function ( row, data, start, end, display ) {
+					
+					"footerCallback": function ( row, data, start, end, display ) {
                     var api = this.api(), data;  
                     // Remove the formatting to get integer data for summation
                     var intVal = function ( i ) {

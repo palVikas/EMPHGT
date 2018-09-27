@@ -1,27 +1,27 @@
 <?php
-	$_SESSION['current_customer']=$data->HRM_ID;
-	$cust_reg_no=$data->HRM_REG_NO;
-	$cust_name=$data->HRM_TITLE." ".$data->HRM_FIRST_NAME." ".$data->HRM_MIDDLE_NAME." ".$data->HRM_LAST_NAME;
-	$cust_address=$data->HRM_ADDRESS;
-	$cust_profession=$data->PROFESSION_NAME;
-	$cust_contact=$data->HRM_CONTACT;
-	$cust_email=$data->HRM_EMAIL;
-	$cust_pan=$data->HRM_PAN;
-	$cust_aadhar=$data->HRM_ADHAAR;
-	$plan_name=$data->PLAN_NAME;
-	$plan_amount=$data->PLAN_EMI_AMOUNT;
-	$plan_duration=$data->PLAN_EMI_PERIOD;
-	$plan_start_date=$data->PLAN_ACTIVATION_DATE;
-	$plan_end_date=$data->PLAN_EXPIRY_DATE;
-	$agent_id=$data->HRM_ADDED_BY;
-	$added_by=$this->db->select('*')->from('hrm')->where('HRM_ID',$agent_id)->get()->row();
-	$agent_reg_no=$added_by->HRM_REG_NO;
-	$agent_name=$added_by->HRM_TITLE." ".$added_by->HRM_FIRST_NAME." ".$added_by->HRM_MIDDLE_NAME." ".$added_by->HRM_LAST_NAME;
-	$agent_address=$added_by->HRM_ADDRESS;
-	$agent_contact=$added_by->HRM_CONTACT;
-	$agent_email=$added_by->HRM_EMAIL;
-	$agent_pan=$added_by->HRM_PAN;
-	$agent_aadhar=$added_by->HRM_ADHAAR;
+	// $_SESSION['current_customer']=$data->HRM_ID;
+	// $cust_reg_no=$data->HRM_REG_NO;
+	// $cust_name=$data->HRM_TITLE." ".$data->HRM_FIRST_NAME." ".$data->HRM_MIDDLE_NAME." ".$data->HRM_LAST_NAME;
+	// $cust_address=$data->HRM_ADDRESS;
+	// $cust_profession=$data->PROFESSION_NAME;
+	// $cust_contact=$data->HRM_CONTACT;
+	// $cust_email=$data->HRM_EMAIL;
+	// $cust_pan=$data->HRM_PAN;
+	// $cust_aadhar=$data->HRM_ADHAAR;
+	// $plan_name=$data->PLAN_NAME;
+	// $plan_amount=$data->PLAN_EMI_AMOUNT;
+	// $plan_duration=$data->PLAN_EMI_PERIOD;
+	// $plan_start_date=$data->PLAN_ACTIVATION_DATE;
+	// $plan_end_date=$data->PLAN_EXPIRY_DATE;
+	// $agent_id=$data->HRM_ADDED_BY;
+	// $added_by=$this->db->select('*')->from('hrm')->where('HRM_ID',$agent_id)->get()->row();
+	// $agent_reg_no=$added_by->HRM_REG_NO;
+	// $agent_name=$added_by->HRM_TITLE." ".$added_by->HRM_FIRST_NAME." ".$added_by->HRM_MIDDLE_NAME." ".$added_by->HRM_LAST_NAME;
+	// $agent_address=$added_by->HRM_ADDRESS;
+	// $agent_contact=$added_by->HRM_CONTACT;
+	// $agent_email=$added_by->HRM_EMAIL;
+	// $agent_pan=$added_by->HRM_PAN;
+	// $agent_aadhar=$added_by->HRM_ADHAAR;
 
 ?>
 <!DOCTYPE html>
@@ -44,7 +44,7 @@
 	<br><br>
 	<div class="page-wrapper">
 		<div class="container-fluid">
-			<div class="row">
+			<!--<div class="row">
 				<div class="col-md-6 form-group">
 					<h4>PERSONAL DETAILS</h4>
 					<hr class="light-gray-hr">
@@ -165,7 +165,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 
 			<div class="row">
 				<div class="col-md-6 form-group">
@@ -196,6 +196,7 @@
 													<th>PLAN NAME</th>
 													<th>AMOUNT</th>
 													<th>PERIOD(IN MONTHS)</th>	
+													<th>TRANSACTION TIME</th>
 													<th>AGENT NAME</th>	
 													<th>PRINT</th>												
 												</tr>
@@ -214,10 +215,10 @@
 			</div>
 		</div>
 	</div>
-	<?php// print_r($data); ?>
 	<script type="text/javascript">
 		var table=$('#tbl').dataTable(
 				{
+				"serverSide": true,
 				"ajax":{"url":"<?php echo base_url('admin/get_invoice'); ?>"},
 				"columns":
 						[
@@ -226,6 +227,7 @@
 							{"data":"PLAN_NAME"},
 							{"data":"WALLET_AMOUNT"},
 							{"data":"PLAN_EMI_PERIOD"},
+							{"data":"WALLET_TRANSACTION_TIME"},
 							{"data":"HRM_FIRST_NAME"},
 							{"data":"HRM_ID",render:function(data,type,row)
 								{	

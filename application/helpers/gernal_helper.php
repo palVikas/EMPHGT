@@ -1,5 +1,5 @@
  <?php
-  function get__money_in_words($number)
+  function get_money_in_words($number)
   {
    $no = round($number);
    $point = round($number - $no, 2) * 100;

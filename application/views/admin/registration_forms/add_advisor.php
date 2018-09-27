@@ -4,14 +4,14 @@
 						<!-- Title -->
 						<div class="row heading-bg">
 							<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-							  <h5 class="txt-dark">Staff</h5>
+							  <h5 class="txt-dark">Advisor</h5>
 							</div>
 							<!-- Breadcrumb -->
 							<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 							  <ol class="breadcrumb">
 								<li><a href="index-2.html">Admin</a></li>
 								<li><a href="#"><span>Dashboard</span></a></li>
-								<li class="active"><span>Add hrm</span></li>
+								<li class="active"><span>Add Advisor</span></li>
 							  </ol>
 							</div>
 							<!-- /Breadcrumb -->
@@ -32,26 +32,27 @@
 											<form method="post" action="<?php echo base_url('admin/register_advisor'); ?>">
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">Type</label>
-														<select name="hrm_type" class="form-control" required id="hrm_type">
-															<option value="">--Select Type--</option>
+														<label class="control-label mb-10 text-left">Sponser</label>
+														<select name="sponser" class="form-control" id="sponser">
+															<option value="">Self</option>
 															<?php
 															
-															$query=$this->db->select("*")->from('hrm_type')
+															$query=$this->db->select("*")->from('hrm')
 																						->where('HRM_TYPE_ID',1)
-																						->or_where('HRM_TYPE_ID',2)	
+																						///->or_where('HRM_TYPE_ID',2)	
 															                             ->get()->result();
 															foreach ($query as $row) 
 															{
-																echo "<option value='".$row->HRM_TYPE_ID."'>".$row->HRM_TYPE_POST."</option>";
+																$name=$row->HRM_FIRST_NAME." ".$row->HRM_MIDDLE_NAME." ".$row->HRM_LAST_NAME."(".$row->HRM_REG_NO.")";
+																echo "<option value='".$row->HRM_ID."'>".$name."</option>";
 															}
 
 															?>
 														</select>
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">Branch id</label>
-														<select name="branch" class="form-control">
+														<label class="control-label mb-10 text-left">Branch</label>
+														<select name="branch" class="form-control" required>
 															<option value="">--Select Branch--</option>
 															<?php
 																$query=$this->db->select("*")->from('branch')->get()->result();
@@ -65,23 +66,7 @@
 														</select>
 													</div>
 												</div>
-																								
-												<!--<div class="row" id="adv">
-													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">rank</label>
-														<select name="rank" class="form-control" id="rnk">
-																			
-														</select>
-													</div>
-													<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">under</label>
-														<select name="under" class="form-control" id="und">
-																	
-														</select>
-													</div>-->
-
-
-											
+																				
 
 												<div class="form-body">
 													<br><br>
@@ -93,9 +78,9 @@
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
 														<select name="title" class='form-control'>
-														<option value="mr.">Mr.</option>
-														<option value="mrs.">Mrs.</option>
-														<option value="ms.">Ms.</option>
+														<option value="mr.">MR.</option>
+														<option value="mrs.">MRS.</option>
+														<option value="ms.">MS.</option>
 														</select>
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
@@ -108,14 +93,14 @@
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">last name</label>
-														<input type="text" class="form-control" name="lname">
+														<input type="text" class="form-control" name="lname" required>
 													</div>													
 												</div>
 
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Sex</label>
-														<select class="form-control" name="sex">
+														<select class="form-control" name="sex" required>
 															<option value="">--Select gender--</option>
 															<option value="m">MALE</option>
 															<option value="f">FEMALE</option>
@@ -123,13 +108,29 @@
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Nationality</label>
-														<input type="text" class="form-control" required name="nation">
+														<input type="text" class="form-control" name="nation">
 													</div>
 												</div>
 												<div class="row">
-													<div class="form-group col-md-6">
+													<div class="form-group col-md-4 col-sm-6">
+														<label class="control-label mb-10 text-left">Rank</label>
+														<select name="rank" class="form-control" required id="rank">
+															<option value="">--Select Rank--</option>
+															<?php 
+																$data=$this->db->select('*')->from('rank')->where('RANK_ID >',4)
+																					  ->get()->result();
+																foreach ($data as $d) 
+																{
+																	echo "<option value='".$d->RANK_ID."'>".$d->RANK_NAME."</option>";
+																}
+
+
+															?>
+														</select>
+													</div>
+													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select name="profession" class="form-control">
+														<select name="profession" class="form-control" required>
 															<option value="">--Select profession--</option>
 															<?php
 																$query=$this->db->select("*")->from('Profession')->get()->result();
@@ -142,9 +143,9 @@
 															?>
 														</select>		
 													</div>
-													<div class="form-group col-md-6">
+													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Registration date</label>
-														<input type="date" class="form-control" required name="reg_date">		
+														<input type="date" class="form-control" name="reg_date">		
 													</div>
 												</div>
 
@@ -160,12 +161,12 @@
 												<div class="row">
 													<div class="form-group col-md-9">
 														<label class="control-label mb-10 text-left">Address</label>
-														<input type="text" class="form-control" required name="address">		
+														<input type="text" class="form-control" name="address">		
 													</div>
 													
 													<div class="form-group col-md-3 col-sm-6">
 														<label class="control-label mb-10 text-left">city</label>
-														<select name="city" class="form-control">
+														<select name="city" class="form-control" required>
 															<option value="">--Select City--</option>
 														<?php
 															$query=$this->db->select("*")->from('cities')->order_by('CITY_NAME')->get()->result();
@@ -183,7 +184,7 @@
 												<div class="row">
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Contact</label>
-														<input type="number" class="form-control" required name="cont" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">		
+														<input type="number" class="form-control" name="cont" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">		
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Alt. contact</label>
@@ -206,7 +207,7 @@
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">GST</label>
-														<input type="text" class="form-control" name="gst" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15">		
+														<input type="number" class="form-control" name="gst" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15">		
 													</div>
 												</div>						
 											
@@ -232,7 +233,7 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">First name</label>
-														<input type="text" class="form-control" value="" required name="nom_fname">
+														<input type="text" class="form-control"  name="nom_fname">
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">middle name</label>
@@ -262,18 +263,18 @@
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Aadhar no.</label>
-														<input type="nom_aadhar" class="form-control" name="nom_aadhar" required>
+														<input type="nom_aadhar" class="form-control" name="nom_aadhar">
 													</div>
 												</div>
 
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Address</label>
-														<input type="text" name="nom_address" class="form-control" required>
+														<input type="text" name="nom_address" class="form-control">
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Relation</label>
-														<input type="password" class="form-control" name="nom_relation" required>
+														<input type="text" class="form-control" name="nom_relation">
 													</div>
 												</div>
 
@@ -287,11 +288,11 @@
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Username</label>
-														<input type="text" name="user" class="form-control" required>
+														<input type="text" name="user" class="form-control">
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Password</label>
-														<input type="password" class="form-control" name="pass" required>
+														<input type="password" class="form-control" name="pass" >
 													</div>
 												</div>
 
@@ -310,81 +311,32 @@
 					</div>
 				</div>
 			
-				<script>		
+				<script>	
 
-					$('#hrm_type').change(function(){
-						$.ajax({
-							url:"<?php echo base_url('extra/check/get_type'); ?>",
-							type:"post",
-							data:{data:$('#hrm_type').val()},
-							dataType:"json",
-							success:function(result)
-							{
-								//$('#rnk').html();
-								$('#und').html();
-								var to_append="";
-								if($('#hrm_type').val() == 1)
-								{
-																		
-									for(var x in result[0])
-									{	
-																			
-										to_append+="<option value='"+result[0][x]['RANK_ID']+"'>"+result[0][x]['RANK_DESCRIPTION']+"</option>";
+				$(document).on("change","#sponser",function(){
 
-                                       
-										//$('#rnk').append("<option value='"+result[0][x]['RANK_ID']+"'>"+result[0][x]['RANK_DESCRIPTION']+"</option>");
-									}
-									 $('#rnk').html(to_append);
-									for(var x in result[1])
-									{	
-
-										$('#und').append("<option value='"+result[1][x]['HRM_ID']+"'>"+result[1][x]['HRM_FIRST_NAME']+"</option>");
-									}
-								}
-
-								else if($('#hrm_type').val() == 2)
-								{
-									
-									for(var x in result)
-									{
-
-										to_append+="<option value='"+result[x]['RANK_ID']+"'>"+result[x]['RANK_DESCRIPTION']+"</option>";
-										///$('#rnk').append("<option value='"+result[x]['RANK_ID']+"'>"+result[x]['RANK_DESCRIPTION']+"</option>");
-									}
-									$("#rnk").html(to_append);
-								}
-								
-							},
-							error:function()
-							{
-								alert("error");
-							}
-						});
-					});
-
-					$("#hrm_type").on('change',function(){
-						var hrm_val = $("#hrm_type").val();
-						if (hrm_val==1)
+					$.ajax({
+						url:"<?php echo base_url('extra/Get_details/get_below_ranks'); ?>",
+						type:"post",
+						data:{data:$('#sponser').val()},
+						dataType:"json",
+						success:function(result)
 						{
-							$.ajax({
-								url:"<?php echo base_url('extra/check/get_super'); ?>",
-								data:"",
-								type:"post",
-								dataType:"json",
-								success:function(result)
-								{
-									for(var x in result)
-									{
-										var name=result[x]['HRM_TITLE']+" "+result[x]['HRM_FIRST_NAME']+" "+result[x]['HRM_MIDDLE_NAME']+" "+result[x]['HRM_LAST_NAME'];
-										$("#add_under").append("<option value='"+result[x]['']+"'>"+name+"</option>")
-									}
-								}
-
-							});
+							$('#rank').html("<option value=''>--Select Rank--</option>");
+							for(var i in result)
+							{
+								$("#rank").append("<option value='"+result[i]['RANK_ID']+"'>"+result[i]['RANK_NAME']+"</option>");
+							}
+							
+							//alert(result);
+						},
+						error:function(result)
+						{
+							alert(result);
 						}
-					})
+					});
+				});	
 
-				
 					function number(x)
 					{
 						if (x.value.length > x.maxLength) x.value = x.value.slice(0, x.maxLength);
