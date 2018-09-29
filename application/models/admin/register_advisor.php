@@ -70,7 +70,7 @@ class Register_advisor extends CI_model
 
 			if ($data['sponser']=="") 
 			{
-				$added_by=$hrm_last_id;
+				$added_by=4;
 			}
 
 			$relation=array

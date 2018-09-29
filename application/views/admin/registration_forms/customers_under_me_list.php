@@ -1,4 +1,9 @@
+		<!-- jQuery -->
+		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
 
+		<!--Datatables-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/> 
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
 <!-- Main Content -->
 		<div class="page-wrapper">
 					<div class="container-fluid">
@@ -7,7 +12,7 @@
 					<div class="panel panel-default card-view">
 						<div class="panel-heading">
 							<div class="pull-left">
-								<h6 class="panel-title txt-dark">Advisor List</h6>
+								<h6 class="panel-title txt-dark">Customers List</h6>
 							</div>
 							<div class="clearfix"></div>
 						</div>
@@ -20,12 +25,12 @@
 											<thead>
 												<tr>
 													<th>Registration No</th>
-													<th>Rank</th>
-													<th>Name</th>													
-													<th>Customers</th>
-													<th>Commission</th>	
-													<th>Contact</th>
-													<th>Tools</th>																
+													<th>Name</th>
+													<th>Contact</th>													
+													<th>Address</th>	
+													<th>Plan</th>
+													<th>Amount</th>									
+													<th>Duration(Month)</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -43,24 +48,18 @@
 		</div>
 
 		<script type="text/javascript">
-			
 				var table=$('#tbl').dataTable(
 				{
-				"ajax":{"url":"<?php echo base_url('extra/Get_list/get_all_advisor'); ?>"},
+				"ajax":{"url":"<?php echo base_url('extra/Get_list/get_customers_under_me/').$advisor_id ;?>"},
 				"columns":
 						[
 							{"data":"HRM_REG_NO"},
 							{"data":"name"},
 							{"data":"HRM_CONTACT"},
-							{"data":"HRM_ADDRESS"},
-							{"data":"PLAN_EMI_ID"},
-							{"data":"HRM_CONTACT"},
-							{"data":"HRM_ID",render:function(data,type,row)
-								{	
-									return "<button type='button' onclick='view_customers("+data+")' class='btn btn-sm btn-info'>View details</button>";					
-								}
-							}
-												
+							{"data":"HRM_ADDRESS"},	
+							{"data":"PLAN_NAME"},
+							{"data":"PLAN_EMI_AMOUNT"},
+							{"data":"PLAN_EMI_PERIOD"}											
 						]
 					});
 

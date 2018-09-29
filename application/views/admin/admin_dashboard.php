@@ -1,9 +1,4 @@
 <?php
-if (1==1) 
-{
-	//$ad_option=$_SESSION['admin'];
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,9 +138,9 @@ if (1==1)
 					<!--<li>
 						<a href="javascript:add_company()"><div class="pull-left"><i class="fas fa-industry mr-20"></i><span class="right-nav-text">Company</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>-->					
-					<li>
+					<!--<li>
 						<a href="javascript:add_branch();"><div class="pull-left"><i class="fas fa-sitemap mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-					</li>		
+					</li>-->		
 							
 					<li>
 						<a href="javascript:void(0);" data-toggle="collapse" data-target="#branch"><div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Branch </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
@@ -200,28 +195,38 @@ if (1==1)
 			
 			$(document).ready(function()
 			{
-				//var option="<?php //echo $ad_option; ?>";
 				var option;
-				if (option=="dashboard") 
+				var option="<?php echo $_SESSION['admin']; ?>";
+				
+				switch(option)
 				{
-					//alert(option);
-					dashboard();
-				}
-				else if (option=="customer") 
-				{
-					add_customer();
-				}
-				else if (option=="branch") 
-				{
-					add_branch();
-				}
-				else if (option=="company") 
-				{
-					add_company();
-				}
-				else
-				{
-					dashboard();
+					case "add_company":
+						add_company();
+						break;
+
+					case "add_branch":
+						add_branch();
+						break;
+
+					case "add_customer":
+						add_customer();
+						break;
+
+					case "add_advisor":
+						advisor();
+						break;
+
+					case "advisor_list":
+						advisor_list();
+						break;
+
+					case "customer_list":
+						cust_list();
+						break;
+
+					default:
+						dashboard();
+						break;
 				}
 			});
 			
@@ -251,7 +256,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
-						<?php $_SESSION['admin']='company'; ?>
+						<?php $_SESSION['admin']='add_company'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()
@@ -267,6 +272,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
+						<?php $_SESSION['admin']='add_branch'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()
@@ -282,6 +288,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
+						<?php $_SESSION['admin']='add_customer'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()
@@ -289,21 +296,6 @@ if (1==1)
 						alert("error");
 					}
 				});
-			}
-			function plan_list()
-			{
-				$.ajax({
-					url:"<?php echo base_url('admin/plan_list'); ?>",
-					type:"post",
-					success:function(result)
-					{
-
-					},
-					error:function()
-					{
-						alert("error");
-					}
-				});	
 			}
 
 			function advisor_list()
@@ -313,6 +305,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
+						<?php $_SESSION['admin']='advisor_list'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()
@@ -329,6 +322,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
+						<?php $_SESSION['admin']='add_advisor'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()
@@ -337,36 +331,7 @@ if (1==1)
 					}
 				});	
 			}
-			function plan_type()
-			{
-				$.ajax({
-					url:"<?php echo base_url('admin/plan_type'); ?>",
-					type:"post",
-					success:function(result)
-					{
-
-					},
-					error:function()
-					{
-						alert("error");
-					}
-				});	
-			}
-			function profession()
-			{
-				$.ajax({
-					url:"<?php echo base_url('admin/profession'); ?>",
-					type:"post",
-					success:function(result)
-					{
-
-					},
-					error:function()
-					{
-						alert("error");
-					}
-				});	
-			}
+	
 			function cust_list()
 			{
 				$.ajax({
@@ -374,6 +339,7 @@ if (1==1)
 					type:"post",
 					success:function(result)
 					{
+						<?php $_SESSION['admin']='customer_list'; ?>
 						$("#main_content").html(result);
 					},
 					error:function()

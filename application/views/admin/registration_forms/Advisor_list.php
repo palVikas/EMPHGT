@@ -52,12 +52,12 @@
 							{"data":"HRM_REG_NO"},
 							{"data":"RANK_NAME"},
 							{"data":"name"},
-							{"data":"customer"},
-							{"data":"commission"},
+							{"data":"customers"},
+							{"data":"WALLET_AMOUNT"},
 							{"data":"HRM_CONTACT"},
 							{"data":"HRM_ID",render:function(data,type,row)
 								{	
-									return "<button type='button' onclick='view_customers("+data+")' class='btn btn-sm btn-info'>View details</button>";					
+									return "<button type='button' onclick='view_customers("+data+")' class='btn btn-sm btn-info'>Customers</button>";					
 								}
 							}
 												

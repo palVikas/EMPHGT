@@ -15,23 +15,24 @@ class Admin extends CI_Controller
 	}
 	public function dashboard()
 	{
+		$_SESSION['admin']="dashboard";
 		$this->load->view('admin/registration_forms/dashboard');
 	}
 	public function add_company()
 	{
-		$_SESSION['admin']='company';
+		$_SESSION['admin']="add_company";
 		$data=$this->load->view('admin/registration_forms/add_company');
 		echo json_encode($data);
 	}
 	public function add_branch()
 	{
-		$_SESSION['admin']='branch';
+		$_SESSION['admin']="add_branch";
 		$data=$this->load->view('admin/registration_forms/add_branch');
 		echo json_encode($data);
 	}
 	public function add_customer()
 	{
-		$_SESSION['admin']='customer';
+		$_SESSION['admin']="add_customer";
 		$data=$this->load->view("admin/registration_forms/customer");
 		echo json_encode($data);
 	}
@@ -42,6 +43,7 @@ class Admin extends CI_Controller
 	}
 	public function add_advisor()
 	{
+		$_SESSION['admin']="add_advisor";
 		$data=$this->load->view('admin/registration_forms/add_advisor');
 		echo json_encode($data);
 	}
@@ -53,6 +55,7 @@ class Admin extends CI_Controller
 
 	public function advisor_list()
 	{
+		$_SESSION['admin']="advisor_list";
 		$this->load->view('admin/registration_forms/Advisor_list');
 	}
 	public function cust_list()
@@ -172,11 +175,11 @@ class Admin extends CI_Controller
 
 	public function customers_under()
 	{
-		$advisor_id=$this->uri->segment(3);
-		$this->load->model('admin/Get_list');
-		$data=$this->Get_list->get_customers_under_advisor($advisor_id);
+		$data['advisor_id']=$this->uri->segment(3);
+		//$this->load->model('admin/Get_list');
+		//$data=$this->Get_list->get_customers_under_advisor($advisor_id);
 		//print_r($data);
-		$this->load->view("admin/registration_forms/customers_under_me_list");
+		$this->load->view("admin/registration_forms/customers_under_me_list",$data);
 	}
 	
 }

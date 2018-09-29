@@ -145,7 +145,7 @@
 									<h6 class="panel-title txt-dark">Total Amount : <small ><?php echo $amount ?></small></h6>
 									<div class="seprator-block"></div>
 									<h6 class="panel-title txt-dark">Branch name : <small ><?php echo $data->BRANCH_NAME; ?></small></h6>
-									<h6 class="panel-title txt-dark">Transaction Date:<small ><?php date('d/m/Y',strtotime($data->WALLET_TRANSACTION_TIME)) ?></small></h6>
+									<h6 class="panel-title txt-dark">Transaction Date:<small ><?php echo date('d-m-Y',strtotime($data->WALLET_TRANSACTION_TIME)) ?></small></h6>
 									<h6 class="panel-title txt-dark">Received with Thanks From Mr./Mrs.:<small ><?php echo $name ?></small></h6>
 									<div class="seprator-block"></div>
 									<h5 class="panel-title txt-dark">For Empirial Height Agro Producer Company Ltd. </h5>
