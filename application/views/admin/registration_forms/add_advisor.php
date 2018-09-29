@@ -33,7 +33,7 @@
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Sponser</label>
-														<select name="sponser" class="form-control" id="sponser">
+														<select name="sponser" class="form-control js-example-basic-single" id="sponser">
 															<option value="">Self</option>
 															<?php
 															
@@ -130,7 +130,7 @@
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select name="profession" class="form-control" required>
+														<select name="profession" class="form-control js-example-basic-single" required>
 															<option value="">--Select profession--</option>
 															<?php
 																$query=$this->db->select("*")->from('Profession')->get()->result();
@@ -145,7 +145,7 @@
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Registration date</label>
-														<input type="date" class="form-control" name="reg_date">		
+														<input type="date" class="form-control" name="reg_date" id="reg_date">		
 													</div>
 												</div>
 
@@ -166,7 +166,7 @@
 													
 													<div class="form-group col-md-3 col-sm-6">
 														<label class="control-label mb-10 text-left">city</label>
-														<select name="city" class="form-control" required>
+														<select name="city" class="form-control js-example-basic-single" required >
 															<option value="">--Select City--</option>
 														<?php
 															$query=$this->db->select("*")->from('cities')->order_by('CITY_NAME')->get()->result();
@@ -248,7 +248,7 @@
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select name="nom_profession" class="form-control">
+														<select name="nom_profession" class="form-control js-example-basic-single">
 															<option value="">--Select profession--</option>
 															<?php
 																$query=$this->db->select("*")->from('Profession')->get()->result();
@@ -312,6 +312,22 @@
 				</div>
 			
 				<script>	
+
+				$(document).ready( function() 
+				{
+					var date=new Date;
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+
+					if (month < 10) month = "0" + month;
+					if (day < 10) day = "0" + day;
+
+					var today = year + "-" + month + "-" + day;       
+					document.getElementById("reg_date").value = today;
+
+					$('.js-example-basic-single').select2();
+				})
 
 				$(document).on("change","#sponser",function(){
 

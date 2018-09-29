@@ -164,10 +164,19 @@ class Admin extends CI_Controller
 
 	public function print_invoice()
 	{
-		$hrm_id=$this->uri->segment(3);
+		$wallet_id=$this->uri->segment(3);
 		$this->load->model('Getting_invoice_details');
-		$data['data']=$this->Getting_invoice_details->get_details($hrm_id);
+		$data['data']=$this->Getting_invoice_details->print_invoice($wallet_id);
 		$this->load->view('invoice_details1',$data);
+	}
+
+	public function customers_under()
+	{
+		$advisor_id=$this->uri->segment(3);
+		$this->load->model('admin/Get_list');
+		$data=$this->Get_list->get_customers_under_advisor($advisor_id);
+		//print_r($data);
+		$this->load->view("admin/registration_forms/customers_under_me_list");
 	}
 	
 }

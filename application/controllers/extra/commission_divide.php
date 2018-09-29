@@ -42,16 +42,20 @@ class Commission_divide extends CI_Controller
 	{
 		$member_id=$_SESSION['current_cust_id'];
 		$amt=(-1)*($_POST['amount']);
+		$last_invoice_no=$this->db->select_max('INVOICE_NO')->from('wallet_balance')->get()->row()->INVOICE_NO;
+		$invoice=$last_invoice_no+1;
 
 		$details=array
 				 (
 				 	'WALLET_AMOUNT'=>$amt,
 				 	'WALLET_TRANSACTION_METHOD'=>$_POST['type'],
+				 	'INVOICE_NO'=>$invoice,
 				 	'HRM_ID'=>$_POST['hrm_id'],
 				 	'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt
 				 );
 		$this->db->insert('wallet_balance',$details);
+		$wallet_id=$this->db->insert_id();
 
 		$plan_id=$this->db->select('HRM_ACCOUNT_TYPE')->from('hrm')->where('HRM_ID',$member_id)->get()->row()->HRM_ACCOUNT_TYPE;
 
@@ -84,7 +88,7 @@ class Commission_divide extends CI_Controller
 			$wallet_details=array
 								(
 									'WALLET_AMOUNT'=>$total_commission,
-									'WALLET_TRANSACTION_METHOD'=>5,
+									'WALLET_TRANSACTION_METHOD'=>"BONUS",
 									'HRM_ID'=>$sponcer_id,
 									'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 									'WALLET_REMARK'=>'Multi level commission'
@@ -107,7 +111,7 @@ class Commission_divide extends CI_Controller
 		$wallet_details=array
 						(
 							'WALLET_AMOUNT'=>$total_commission,
-							'WALLET_TRANSACTION_METHOD'=>5,
+							'WALLET_TRANSACTION_METHOD'=>"BONUS",
 							'HRM_ID'=>$sponcer_id,
 							'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 							'WALLET_REMARK'=>'Multi level commission'
@@ -115,14 +119,15 @@ class Commission_divide extends CI_Controller
 
 		$this->db->insert('wallet_balance',$wallet_details);
 
-		echo "<script>alert('PAYMENT RECEIVED');window.location='invoice_view'</script>";
+		echo "<script>alert('PAYMENT RECEIVED');window.location='../../Admin/print_invoice/".$wallet_id."'</script>";
 	}
 
 	public function invoice_view()
 	{
-		
-		$this->load->model('getting_invoice_details');
-		$details['data']=$this->getting_invoice_details->get_details($_SESSION['current_cust_id']);
-		$this->load->view('invoice_details1' , $details);
+		$id=$this->uri->segment(3);
+		$this->load->model('Getting_invoice_details');
+		//$details['data']=$this->getting_invoice_details->get_details($_SESSION['current_cust_id']);
+		$data['data']=$this->Getting_invoice_details->print_invoice($id);
+		$this->load->view('invoice_details1', $data);
 	}	
 }

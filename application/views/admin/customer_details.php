@@ -169,7 +169,7 @@
 
 			<div class="row">
 				<div class="col-md-6 form-group">
-					<h4>AGENT DETAILS</h4>
+					<h4>CUSTOMER DETAILS</h4>
 					<hr class="light-gray-hr">
 				</div>				
 			</div>
@@ -179,7 +179,7 @@
 					<div class="panel panel-default card-view">
 						<div class="panel-heading">
 							<div class="pull-left">
-								<h6 class="panel-title txt-dark">Subscriber List</h6>
+								<h6 class="panel-title txt-dark">Invoice List</h6>
 							</div>
 							<div class="clearfix"></div>
 						</div>
@@ -229,7 +229,7 @@
 							{"data":"PLAN_EMI_PERIOD"},
 							{"data":"WALLET_TRANSACTION_TIME"},
 							{"data":"HRM_FIRST_NAME"},
-							{"data":"HRM_ID",render:function(data,type,row)
+							{"data":"WALLET_ID",render:function(data,type,row)
 								{	
 									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
 									return "<button onclick='print_this("+data+")' type='button' class='btn btn-sm btn-info'>Print</button>"

@@ -96,7 +96,7 @@ class Register extends CI_model
 		$wallet_details=array
 						(
 							'WALLET_AMOUNT'=>(-1)*$data['plan_amount'],
-							'WALLET_TRANSACTION_METHOD'=>1,
+							'WALLET_TRANSACTION_METHOD'=>"PLAN PURCHASE",
 							'HRM_ID'=>$cust_id,
 							'PLAN_ACTIVATION_ID'=>$plan_act_id,
 							'WALLET_REMARK'=>"Purchase a plan of ".$data['plan_amount']." Rupees",

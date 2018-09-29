@@ -222,9 +222,9 @@
 					<div class="form-group">
 						<label for="recipient-name" class="control-label mb-10">Mode of payment</label>
 						<select class="form-control" name="type" required>
-							<option value="1" selected>Cash</option>
-							<option value="2">Cheque</option>
-							<option value="3">Demand draft</option>
+							<option value="CASH" selected>Cash</option>
+							<option value="CHEQUE">Cheque</option>
+							<option value="DD">Demand draft</option>
 						</select>
 					</div>
 				</div>
@@ -268,7 +268,7 @@
 							<div class="panel-body">
 								<div class="table-wrap">
 									<div class="table-responsive">
-										<table id="tbl" class="table table-hover display  pb-30" >
+										<table id="tbl" class="table table-hover display pb-30" >
 											<thead>
 												<tr>
 													<th>Registration No</th>
@@ -308,9 +308,9 @@
 									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
 									return "<div class='dropdown'><button class='btn btn-sm btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>options<span class='caret'></span></button> <ul class='dropdown-menu'>"+
 									     '<li><a href="javascript:pay('+data+')">pay</a></li>'+
-									      '<li><a href="<?php echo base_url('admin/view_customer_details/'); ?>'+data+'" target="blank">details</a></li>'+
+									      '<li><a href="<?php echo base_url('admin/view_customer_details/'); ?>'+data+'" >details</a></li>'+
 									    '</ul></div>'
-																	}
+								}
 							}
 							
 							

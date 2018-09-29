@@ -64,7 +64,7 @@
 													</div>
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select name="profession" class="form-control" required>
+														<select name="profession" class="form-control js-example-basic-single" required>
 															<option value="">--select profession--</option>
 															<?php 
 																$q=$this->db->select("*")->from('profession')->get()->result();
@@ -122,7 +122,7 @@
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">City</label>
-														<select name="city" class="form-control" required>
+														<select name="city" class="form-control js-example-basic-single" required>
 															<option value="">--select City--</option>
 															<?php 
 																$q=$this->db->select("*")->from('cities')->get()->result();
@@ -135,7 +135,7 @@
 													</div>
 													<div class="form-group col-md-6">
 														<label class="control-label mb-10 text-left">Registration date</label>
-														<input type="DATE" class="form-control" name="reg_date" required>
+														<input type="DATE" id="reg_date" class="form-control" name="reg_date" required>
 													</div>											
 													
 												<!--<div class="form-group col-md-4">
@@ -158,7 +158,7 @@
 												<div class="row">
 													<div class="form-group col-md-6">
 														<label class="control-label mb-10 text-left">Plan Type</label>
-														<select name="ac_type" class="form-control" id="plan_type" required>
+														<select name="ac_type" class="form-control js-example-basic-single" id="plan_type" required>
 															<option value="">--Select plan type--</option>
 														<?php 															
 															$q=$this->db->select("*")->from('plan_type')
@@ -183,21 +183,21 @@
 												<div class="row">
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Plan name</label>
-														<select name="plan_name" class="form-control" id="plan_name" required>
+														<select name="plan_name" class="form-control js-example-basic-single" id="plan_name" required>
 															<option value="">--Select plan--</option>
 														</select>
 														
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Amount</label>
-														<select name="plan_amount" class="form-control" id="plan_amount" required>
+														<select name="plan_amount" class="form-control js-example-basic-single" id="plan_amount" required>
 															<option value="">--Select plan amount--</option>
 														
 														</select>
 													</div>
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Duration(In month)</label>
-														<select name="plan_duration" class="form-control" id="plan_duration" required>
+														<select name="plan_duration" class="form-control js-example-basic-single" id="plan_duration" required>
 															<option value="">--Select plan duration--</option>
 														
 														</select>
@@ -213,7 +213,7 @@
 												<div class="row">
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Added by</label>
-														<select name="added_by" class="form-control" required id="added_by">
+														<select name="added_by" class="form-control js-example-basic-single" required id="added_by">
 															<option value="">--Added by--</option>
 															<?php 
 															$q=$this->db->select("*")->from('hrm')->where('HRM_TYPE_ID',1)->get()->result();
@@ -227,14 +227,14 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Add under</label>
-														<select name="add_under" class="form-control" required id="add_under">
+														<select name="add_under" class="form-control js-example-basic-single" required id="add_under">
 															<option value="">--Add under--</option>
 															
 														</select>
 													</div>		
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Branch </label>
-														<select name="branch" class="form-control" required>
+														<select name="branch" class="form-control js-example-basic-single" required>
 															<option value="">--select Branch--</option>
 															<?php 
 															$q=$this->db->select("*")->from('branch')->get()->result();
@@ -287,7 +287,7 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select class="form-control" name="nom_profession" required>
+														<select class="form-control js-example-basic-single" name="nom_profession" required>
 															<option value="">--select profession--</option>
 															<?php 
 																$q=$this->db->select("*")->from('profession')->get()->result();
@@ -303,7 +303,7 @@
 												<div class="row">
 													<div class="form-group col-md-12 col-sm-6">
 														<label class="control-label mb-10 text-left">Address</label>
-														<input type="text" class="form-control" name="nom_address" required>
+														<input type="text" class="form-control" name="nom_address" id="nom" required>
 													</div>	
 												</div>	
 										
@@ -321,6 +321,24 @@
 					</div>
 				</div>
 				<script type="text/javascript">
+
+					$(document).ready( function() 
+					{
+					    var date=new Date;
+					    var day = date.getDate();
+						var month = date.getMonth() + 1;
+						var year = date.getFullYear();
+
+						if (month < 10) month = "0" + month;
+						if (day < 10) day = "0" + day;
+
+						var today = year + "-" + month + "-" + day;       
+						document.getElementById("reg_date").value = today;
+
+						$('.js-example-basic-single').select2();
+					})
+
+
 					$("#plan_type").on('change',function(){
 						$.ajax({
 							url:"<?php echo base_url('extra/check/get_plans'); ?>",
@@ -401,7 +419,8 @@
 							}
 						});
 					});
-				
+					
+					
 					function number(x)
 					{
 						if (x.value.length > x.maxLength) x.value = x.value.slice(0, x.maxLength);

@@ -50,10 +50,10 @@
 				"columns":
 						[
 							{"data":"HRM_REG_NO"},
-							{"data":"RANK_NAME"},
 							{"data":"name"},
-							{"data":"customer"},
-							{"data":"commission"},
+							{"data":"HRM_CONTACT"},
+							{"data":"HRM_ADDRESS"},
+							{"data":"PLAN_EMI_ID"},
 							{"data":"HRM_CONTACT"},
 							{"data":"HRM_ID",render:function(data,type,row)
 								{	

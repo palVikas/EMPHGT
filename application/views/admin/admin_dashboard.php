@@ -11,7 +11,11 @@ if (1==1)
 <!-- Mirrored from hencework.com/theme/doodle/full-width-light/panels-wells.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 03 Jan 2018 11:16:10 GMT -->
 <head>
        <!-- jQuery -->
-		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>	
+		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
+
+		<!--Select 2-->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -136,13 +140,26 @@ if (1==1)
 					<li>
 						<a class="active" href="javascript:dashboard()"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>
-					<li>
+					<!--<li>
 						<a href="javascript:add_company()"><div class="pull-left"><i class="fas fa-industry mr-20"></i><span class="right-nav-text">Company</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-					</li>					
+					</li>-->					
 					<li>
 						<a href="javascript:add_branch();"><div class="pull-left"><i class="fas fa-sitemap mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>		
-														
+							
+					<li>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#branch"><div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Branch </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+						<ul id="branch" class="collapse collapse-level-1">
+							<li>
+								<a href="javascript:add_branch();">Add New Branch</a>
+							</li>
+							<li>
+								<a href="javascript:branch_list();">List of Branches</a>
+							</li>	
+						</ul>
+					</li>
+					
+
 					<li>
 						<a href="javascript:void(0);" data-toggle="collapse" data-target="#adv"><div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Advisor </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
 						<ul id="adv" class="collapse collapse-level-1">
@@ -165,11 +182,7 @@ if (1==1)
 								<a href="javascript:add_customer();">Add Customer</a>
 							</li>	
 						</ul>
-					</li>
-
-					<!--<li>
-						<a href="javascript:relation();"><div class="pull-left"><i class="zmdi zmdi-flag mr-20"></i><span class="right-nav-text">Relation</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-					</li>-->				
+					</li>			
 				</ul>
 			</div>
 			<!-- /Left Sidebar Menu -->
@@ -226,6 +239,10 @@ if (1==1)
 						alert("error");
 					}
 				});
+			}
+			function branch_list()
+			{
+				alert();
 			}
 			function add_company()
 			{

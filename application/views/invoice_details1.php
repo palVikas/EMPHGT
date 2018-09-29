@@ -1,27 +1,39 @@
 <?php
-$cust_id=$_SESSION['current_cust_id'];
-	$data1=$this->db->select('*')->from('hrm')
-									  ->join('hrm_relation','hrm.HRM_ID=hrm_relation.HRM_ADDED_BY')
-										->join('wallet_balance','wallet_balance.HRM_ID=hrm_relation.NEW_HRM_ID')
-									  ->join('plan_activation','plan_activation.PLAN_ACTIVATION_ID=wallet_balance.PLAN_ACTIVATION_ID')
-									  ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
-									  ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')
-									  ->join('branch','branch.BRANCH_ID=hrm.BRANCH_ID')
-									  ->join('plan_interest','plan_interest.PLAN_ID=plan.PLAN_ID')
-									  ->where('wallet_balance.HRM_ID',$cust_id)
-									  ->where('wallet_balance.WALLET_AMOUNT >',0)
-									  ->get()->row();
+	// $cust_id=$_SESSION['current_cust_id'];
+	// $data1=$this->db->select('*')->from('hrm')
+	// 								  ->join('hrm_relation','hrm.HRM_ID=hrm_relation.HRM_ADDED_BY')
+	// 									->join('wallet_balance','wallet_balance.HRM_ID=hrm_relation.NEW_HRM_ID')
+	// 								  ->join('plan_activation','plan_activation.PLAN_ACTIVATION_ID=wallet_balance.PLAN_ACTIVATION_ID')
+	// 								  ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
+	// 								  ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')
+	// 								  ->join('branch','branch.BRANCH_ID=hrm.BRANCH_ID')
+	// 								  ->join('plan_interest','plan_interest.PLAN_ID=plan.PLAN_ID')
+	// 								  ->where('wallet_balance.HRM_ID',$cust_id)
+	// 								  ->where('wallet_balance.WALLET_AMOUNT >',0)
+	// 								  ->get()->row();
 
 	//print_r($data);
-	$reg_no=$data->HRM_REG_NO;;
+
+	$interest_rate=$this->db->select('PLAN_INTEREST_RATE')->from('plan_interest')->where('PLAN_ID',$data->PLAN_ID)->get()->row()->PLAN_INTEREST_RATE;
+	
+	$plan_activation_date=$data->PLAN_ACTIVATION_DATE;
+	$no_of_paid_emi=$this->db->from('wallet_balance')
+							->where('HRM_ID',$data->HRM_ID)->where('WALLET_AMOUNT',$data->WALLET_AMOUNT)->count_all_results();
+	
+	$plan_expiry_date=date('d/m/Y',strtotime($data->PLAN_EXPIRY_DATE));
+	$reg_no=$data->HRM_REG_NO;
+	$next_installment_date=date('d/m/Y',strtotime($data->WALLET_TRANSACTION_TIME."+1 month"));
+	
 	$name=$data->HRM_TITLE." ".$data->HRM_FIRST_NAME." ".$data->HRM_MIDDLE_NAME." ".$data->HRM_LAST_NAME;
 	$plan_id=$data->PLAN_ID;
 	$plan_name=$data->PLAN_NAME;
-	$redemption_val=($data->PLAN_EMI_AMOUNT*$data->PLAN_EMI_PERIOD)-$data->PLAN_EMI_AMOUNT;
-	$agent_code=$data->HRM_ADDED_BY;
-	$agent=$this->db->select('*')->from('hrm')->where('HRM_ID',$agent_code)->get()->row()->HRM_REG_NO;
+	$redemption_val=($data->PLAN_EMI_AMOUNT*$data->PLAN_EMI_PERIOD);
+	$total_redemption_value=$redemption_val+(($interest_rate*$redemption_val)/100);
+	$agent_code=$data->HRM_ADDED_BY;	
+	$agent=$this->db->select('HRM_REG_NO')->from('hrm')->where('HRM_ID',$agent_code)->get()->row()->HRM_REG_NO;
 	$red_period=$data->PLAN_EMI_PERIOD;
 	$amount=$data->PLAN_EMI_AMOUNT;
+	//$date=$data->WALLET_TRANSACTION_TIME;
 	$date = strtotime(date('d-m-Y'). " + 1 month");
 	$next_date = date("d-m-Y",$date);
 	$new_date=strtotime($data->PLAN_EXPIRY_DATE);
@@ -109,21 +121,22 @@ $cust_id=$_SESSION['current_cust_id'];
 							<div class="seprator-block"></div>
 								<div class="panel-heading">
 									<div class="pull-left">
-										<h4 class="panel-title txt-dark">Receipt No:<small ><?php echo 1 ;?></small></h4>
+										<h4 class="panel-title txt-dark">Receipt No:<small ><?php echo $data->INVOICE_NO ;?></small></h4>
 										<div class="seprator-block"></div>
 										<!--<h6 class="panel-title txt-dark">Installment No:<small >4</small></h6>-->
-										<h6 class="panel-title txt-dark">Redemption Value:<small >Rs.<?php echo $redemption_val ?> (After APaying All Installments)</small></h6>
+										<h6 class="panel-title txt-dark">Redemption Value:<small >Rs.<?php echo $total_redemption_value ?> (After APaying All Installments)</small></h6>
+										<h6 class="panel-title txt-dark">EMI No : <small ><?php echo $no_of_paid_emi ?></small></h6>
 										<h6 class="panel-title txt-dark">Agent Code : <small ><?php echo $agent ?></small></h6>
 										<h6 class="panel-title txt-dark">Policy No : <small ><?php echo $data->PLAN_ACTIVATION_ID; ?></small></h6>
 										<h6 class="panel-title txt-dark">Plan :<small ><?php echo $plan_name ?></small></h6>
-										<h6 class="panel-title txt-dark">Next Installment Date : <small ><?php echo $next_date ?></small></h6>
+										<h6 class="panel-title txt-dark">Next Installment Date : <small ><?php echo $next_installment_date ?></small></h6>
 										<h6 class="panel-title txt-dark">Mode Of Payment: <small >CASH</small></h6>
 										<h6 class="panel-title txt-dark">Redemption Period :<small ><?php echo $red_period; ?> MONTHS</small></h6>
 										<!--<h6 class="panel-title txt-dark">Rupees in Words :<small >One Thousand Five Hundred Only.</small></h6>-->
 										
 									</div>
 									<div class="pull-right">
-									<h6 class="panel-title txt-dark">Redemption Date : <small ><?php echo $data->PLAN_EXPIRY_DATE?></small></h6>
+									<h6 class="panel-title txt-dark">Redemption Date : <small ><?php echo $plan_expiry_date ?></small></h6>
 									<div class="seprator-block"></div>
 									<h6 class="panel-title txt-dark">Customer Account No : <small ><?php echo $data->HRM_REG_NO?></small></h6>
 									<h6 class="panel-title txt-dark">Installment Amount : <small ><?php echo $amount?></small></h6>
@@ -132,7 +145,7 @@ $cust_id=$_SESSION['current_cust_id'];
 									<h6 class="panel-title txt-dark">Total Amount : <small ><?php echo $amount ?></small></h6>
 									<div class="seprator-block"></div>
 									<h6 class="panel-title txt-dark">Branch name : <small ><?php echo $data->BRANCH_NAME; ?></small></h6>
-									<h6 class="panel-title txt-dark">Transaction Date:<small ><?php echo date('d-M-Y'); ?></small></h6>
+									<h6 class="panel-title txt-dark">Transaction Date:<small ><?php date('d/m/Y',strtotime($data->WALLET_TRANSACTION_TIME)) ?></small></h6>
 									<h6 class="panel-title txt-dark">Received with Thanks From Mr./Mrs.:<small ><?php echo $name ?></small></h6>
 									<div class="seprator-block"></div>
 									<h5 class="panel-title txt-dark">For Empirial Height Agro Producer Company Ltd. </h5>
