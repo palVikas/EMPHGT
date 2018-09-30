@@ -5,7 +5,7 @@ class Login extends CI_controller
 {
 	public function index()
 	{
-		session_destroy();
+		$this->load->library('session');
 		$this->load->view('login');
 	}
 
@@ -64,6 +64,11 @@ class Login extends CI_controller
 
 		}
 	}
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('login');
+	}
 
 	public function admin_login($user,$pass)
 	{
@@ -83,7 +88,8 @@ class Login extends CI_controller
 			{				
 				//$_SESSION['user']=$query->row()->HRM_ID;
 				//$_SESSION['branch']=$query->row()->BRANCH_ID;
-				$_SESSION['agro_p_signed_in']="admin";
+				$this->session->set_userdata('agro_p_signed_in', 'admin');
+				//$_SESSION['agro_p_signed_in']="admin";
 				echo "<script>alert('Successfully login');window.location='../admin/index'</script>";	
 			}
 		}

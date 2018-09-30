@@ -6,6 +6,7 @@
 
 
 ?>
+<div id="main_content">
 <div class="page-wrapper">
 	<div class="container-fluid">
 		<br><br>
@@ -174,7 +175,7 @@
 				</div>
 			</div>
 		</div>
-
+</div>
 
 		<script type="text/javascript">
 			var tbl={tbl:null};

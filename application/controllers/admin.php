@@ -6,33 +6,38 @@ class Admin extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library('session');
+		$this->load->model('admin_model');
+		if($this->session->userdata['agro_p_signed_in']==''){
+			redirect('login/index');
+		}
 	}
 
 	public function index()
 	{
-		//$_SESSION['admin']="dashboard";
-		$this->load->view('admin/admin_dashboard');
+		$this->load->view('admin/header');
+		$this->load->view('admin/registration_forms/dashboard');
+		$this->load->view('admin/footer');
 	}
 	public function dashboard()
 	{
-		$_SESSION['admin']="dashboard";
 		$this->load->view('admin/registration_forms/dashboard');
+		
 	}
+	
 	public function add_company()
 	{
-		$_SESSION['admin']="add_company";
 		$data=$this->load->view('admin/registration_forms/add_company');
 		echo json_encode($data);
 	}
+	
 	public function add_branch()
 	{
-		$_SESSION['admin']="add_branch";
 		$data=$this->load->view('admin/registration_forms/add_branch');
-		echo json_encode($data);
+		
 	}
 	public function add_customer()
 	{
-		$_SESSION['admin']="add_customer";
 		$data=$this->load->view("admin/registration_forms/customer");
 		echo json_encode($data);
 	}
@@ -43,10 +48,11 @@ class Admin extends CI_Controller
 	}
 	public function add_advisor()
 	{
-		$_SESSION['admin']="add_advisor";
+		
 		$data=$this->load->view('admin/registration_forms/add_advisor');
-		echo json_encode($data);
+		
 	}
+	
 	public function register_advisor()
 	{
 		$this->load->model('admin/register_advisor');
@@ -55,26 +61,30 @@ class Admin extends CI_Controller
 
 	public function advisor_list()
 	{
-		$_SESSION['admin']="advisor_list";
-		$this->load->view('admin/registration_forms/Advisor_list');
+		$data[]=array();
+		if($this->uri->segment(3)=="view" ){
+			$query=$this->admin_model->get_unique_cust_hrm($this->uri->segment(4));
+			if(!empty($query)){
+				$data['get_unique_customer_fr_advisor']=$query;
+			}
+			$this->load->view('admin/header');
+			$this->load->view('admin/registration_forms/view_customers',$data);
+			$this->load->view('admin/footer');
+		}
+		else{
+			$query=$this->admin_model->get_all_advisor();
+			if(!empty($query)){
+				$data['get_list_advisor']=$query;
+			}
+			$this->load->view('admin/registration_forms/Advisor_list',$data);
+		}
 	}
 	public function cust_list()
 	{		
 		$this->load->view('admin/registration_forms/customers_list');
+		
 	}
 
-	public function customers_list()
-	{
-		$this->load->library('Datatables');
-
-		$this->datatables->select('*,SUM(WALLET_AMOUNT) as sum,CONCAT(HRM_TITLE," ",HRM_FIRST_NAME," ",HRM_MIDDLE_NAME," ",HRM_LAST_NAME) as name')->from('hrm')
-									  ->join('wallet_balance','wallet_balance.HRM_ID=hrm.HRM_ID')
-								   	  ->group_by('wallet_balance.HRM_ID')						
-									  ->where('hrm.HRM_TYPE_ID',4);
-
-		echo $this->datatables->generate();
-
-	}
 
 	public function super_adviser()
 	{
@@ -143,9 +153,13 @@ class Admin extends CI_Controller
 	public function view_customer_details()
 	{  
 		$hrm_id=$this->uri->segment(3);
-		$_SESSION['current_cust_id']=$hrm_id;
-		$data['data']=$hrm_id;
+		$query=$this->admin_model->wallet_details($hrm_id);
+		if(!empty($query)){
+				$data['view_customer_details']=$query;
+		}
+		$this->load->view('admin/header');
 		$this->load->view('admin/customer_details',$data);
+		$this->load->view('admin/footer');
 	}
 
 	public function get_invoice()

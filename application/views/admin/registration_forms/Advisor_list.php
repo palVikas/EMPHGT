@@ -28,7 +28,44 @@
 													<th>Tools</th>																
 												</tr>
 											</thead>
-											<tbody>
+											<tbody>	
+												<?php foreach($get_list_advisor as $list_advisor) { 
+														
+															
+															$hrm_id=$list_advisor->HRM_ID;
+															$total_calc=0;
+															$count_cust=0;
+															$count = $this->db->query("select * from hrm_relation where HRM_ADDED_BY=$hrm_id");
+															$all_hrm_rel= $count->result();
+															foreach($all_hrm_rel as $relation_cust){
+																$HRM_ID=$relation_cust->NEW_HRM_ID;
+																$hrm_type = $this->db->query("select * from hrm where HRM_ID=$HRM_ID");
+																$hrm_type=$hrm_type->result();
+																//print_r($hrm_type);
+																if($hrm_type[0]->HRM_TYPE_ID==4){
+																	$count_cust++;
+																}
+															
+															}
+															
+															$wallet = $this->db->query("select * from wallet_balance where HRM_ID=$hrm_id");
+															$wallet=$wallet->result();
+														
+															foreach($wallet as $amount){
+																$total_calc+=$amount->WALLET_AMOUNT;
+															}
+												
+												?>
+													<tr>
+														<td><?php echo $list_advisor->HRM_REG_NO; ?></td>
+														<td><?php echo $list_advisor->RANK_NAME; ?></td>
+														<td><?php echo $list_advisor->HRM_FIRST_NAME; ?></td>
+														<td><?php echo $count_cust; ?></td>
+														<td><?php echo $total_calc; ?></td>
+														<td><?php echo $list_advisor->HRM_CONTACT; ?></td>
+														<td><a href="<?php echo base_url(); ?>admin/advisor_list/view/<?php echo $list_advisor->HRM_ID; ?>" ><i class="fa fa-eye"></i></a></td>
+													</tr>
+												<?php } ?>
 											</tbody>
 											<tfoot>
 											</tfoot>
@@ -41,31 +78,3 @@
 				</div>
 			</div>
 		</div>
-
-		<script type="text/javascript">
-			
-				var table=$('#tbl').dataTable(
-				{
-				"ajax":{"url":"<?php echo base_url('extra/Get_list/get_all_advisor'); ?>"},
-				"columns":
-						[
-							{"data":"HRM_REG_NO"},
-							{"data":"RANK_NAME"},
-							{"data":"name"},
-							{"data":"customers"},
-							{"data":"WALLET_AMOUNT"},
-							{"data":"HRM_CONTACT"},
-							{"data":"HRM_ID",render:function(data,type,row)
-								{	
-									return "<button type='button' onclick='view_customers("+data+")' class='btn btn-sm btn-info'>Customers</button>";					
-								}
-							}
-												
-						]
-					});
-
-			function view_customers(data)
-			{
-				window.location='<?php echo base_url("admin/customers_under/"); ?>'+data;
-			}
-		</script>
