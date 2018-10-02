@@ -83,14 +83,14 @@ class Register extends CI_model
 		$plan_act_id=$this->db->insert_id();
 
 		$relation_details=array
-						(
+		(
 							'NEW_HRM_ID'=>$cust_id,
 							'HRM_PARENT_ID'=>$data['add_under'],
 							'HRM_ADDED_BY'=>$data['added_by']
-						);
+		);
 
 		$this->db->insert('hrm_relation',$relation_details);
-		$receipt=$this->db->select_max('RECEIPT_ID')->from('wallet_details')->get()->row()->RECEIPT_NO;
+		$receipt=$this->db->select_max('RECEIPT_NO')->from('wallet_balance')->get()->row()->RECEIPT_NO;
 		$receipt=$receipt+1;
 		$wallet_details=array
 						(
@@ -104,7 +104,16 @@ class Register extends CI_model
 		$this->db->insert('wallet_balance',$wallet_details);
 
 		$this->db->trans_complete();
-
+		$account_ledger=array
+						(
+							'NAME'=>"customer_".$cust_id,
+							'UNDER'=>'29',
+							'VISIBLE'=>'1',
+							'AMOUNT'=>(-1)*$data['plan_amount']
+						);
+			$this->db->insert('accounting_ledgers',$account_ledger);
+		
+		
 		echo "<script>alert('inserted');window.location='index'</script>";
 	}
 

@@ -3,7 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Commission_divide extends CI_Controller
 {
-
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->library('session');
+		$this->load->model('admin_model');
+		if($this->session->userdata['agro_p_signed_in']==''){
+			redirect('login/index');
+		}
+		$this->load->helper('gernal_helper');
+	}
 	public function find_sponcer_id($sponcer_id){
 
 		$sponcer_id=$this->db->select('HRM_ADDED_BY')->from('hrm_relation')->where('NEW_HRM_ID',$sponcer_id)->get()->row()->HRM_ADDED_BY;
@@ -33,7 +42,9 @@ class Commission_divide extends CI_Controller
 				 	'WALLET_TRANSACTION_METHOD'=>$_POST['type'],
 				 	'HRM_ID'=>$_POST['hrm_id'],
 				 	'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
-				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt
+				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt,
+					'WALLET_TRANSACTION_TIME'=>$_POST['date']
+					
 				 );
 		$this->db->insert('wallet_balance',$details);
 	}
@@ -53,11 +64,53 @@ class Commission_divide extends CI_Controller
 				 	'RECEIPT_NO'=>$receipt_no,
 				 	'HRM_ID'=>$_POST['hrm_id'],
 				 	'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
-				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt
+				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt,
+					'WALLET_TRANSACTION_TIME'=>$_POST['date']
 				 );
 		$this->db->insert('wallet_balance',$details);
 		$wallet_id=$this->db->insert_id();
-
+		
+		/*for getting current ledger of customer and update the ledger amount */
+		$ledger_dt=get_ledger_name("customer_".$_POST['hrm_id']);
+		
+		$customer_ldgr_amnt=$ledger_dt[0]->AMOUNT;
+		$drid=$ledger_dt[0]->ID;
+		$curent_updated_amount=$customer_ldgr_amnt+$amt;
+		update_amount_ledger($drid,$curent_updated_amount);
+		
+		$detail_hrm=get_hrm_full($_POST['hrm_id']);
+		$br_id=$detail_hrm[0]->BRANCH_ID;
+		if($_POST['type']==1){
+			$type="cash";
+			$crid=3;
+			$ledger_dt=get_ledger_dt_by_id(3);
+			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
+			$curent_updated_amount_comp=$com_ldger_amt+$amt;
+			update_amount_ledger(3,$curent_updated_amount_comp);
+		}
+		else if($_POST['type']==2){
+			$type="cheque";
+			$crid=6;
+			$ledger_dt=get_ledger_dt_by_id(6);
+			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
+			$curent_updated_amount_comp=$com_ldger_amt+$amt;
+			update_amount_ledger(6,$curent_updated_amount_comp);
+		}else{
+			$type="Demand draft";
+			$crid=7;
+			$ledger_dt=get_ledger_dt_by_id(7);
+			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
+			$curent_updated_amount_comp=$com_ldger_amt+$amt;
+			update_amount_ledger(7,$curent_updated_amount_comp);
+		}
+		$plan_name=get_plan_dt($_POST['plan_act_id']);
+		$plan_name=$plan_name[0]->PLAN_NAME;
+		$particular="being ".$type." paid to company for rs.".$amt." for ".$plan_name;
+		$dt=$_POST['date'];
+		$comp_id=1;
+		insert_record_transaction($drid,$crid,$br_id,$particular,$amt,$dt,$comp_id);
+		
+		
 		$plan_id=$this->db->select('HRM_ACCOUNT_TYPE')->from('hrm')->where('HRM_ID',$member_id)->get()->row()->HRM_ACCOUNT_TYPE;
 
 		$sponcer_id=$this->find_sponcer_id($member_id);
@@ -92,7 +145,8 @@ class Commission_divide extends CI_Controller
 									'WALLET_TRANSACTION_METHOD'=>"5",
 									'HRM_ID'=>$sponcer_id,
 									'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
-									'WALLET_REMARK'=>'Multi level commission'
+									'WALLET_REMARK'=>'Multi level commission',
+									'WALLET_TRANSACTION_TIME'=>$_POST['date']
 								);	
 
 								
@@ -115,12 +169,14 @@ class Commission_divide extends CI_Controller
 							'WALLET_TRANSACTION_METHOD'=>"5",
 							'HRM_ID'=>$sponcer_id,
 							'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
-							'WALLET_REMARK'=>'Multi level commission'
+							'WALLET_REMARK'=>'Multi level commission',
+							'WALLET_TRANSACTION_TIME'=>$_POST['date']
 						);	
 
 		$this->db->insert('wallet_balance',$wallet_details);
 
-		echo "<script>alert('PAYMENT RECEIVED');window.location='../../Admin/print_invoice/".$wallet_id."'</script>";
+		echo "<script>alert('PAYMENT RECEIVED')</script>";
+		/*window.location='../../Admin/print_invoice/".$wallet_id."'</script>";*/
 	}
 
 	public function invoice_view()

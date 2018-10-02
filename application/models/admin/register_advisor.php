@@ -81,7 +81,16 @@ class Register_advisor extends CI_model
 						);
 
 			$this->db->insert('hrm_relation',$relation);
-
+			
+			$account_ledger=array
+						(
+							'NAME'=>"advisor_".$hrm_last_id,
+							'UNDER'=>'28',
+							'VISIBLE'=>'1',
+							'AMOUNT'=>'0'
+						);
+			$this->db->insert('accounting_ledgers',$account_ledger);
+			
 			echo "<script>alert('inserted');window.location='index';</script>";
 
 	}

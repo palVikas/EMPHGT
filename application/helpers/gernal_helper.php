@@ -41,5 +41,58 @@
           $words[$point = $point % 10] : '';
   return $result;
   }
-
- 
+	function get_ledger_name($ledgerid){
+	
+		 $CI =& get_instance();
+		$CI->load->database();
+		$ledger_dt=$CI->db->query('select * from accounting_ledgers where NAME="'.$ledgerid.'"');
+		$ledger_dt=$ledger_dt->result();
+		return $ledger_dt;
+	}
+	function get_ledger_dt_by_id($ledgerid){
+	
+		 $CI =& get_instance();
+		$CI->load->database();
+		$ledger_dt=$CI->db->query('select * from accounting_ledgers where ID="'.$ledgerid.'"');
+		$ledger_dt=$ledger_dt->result();
+		return $ledger_dt;
+	}
+	function update_amount_ledger($ledgerid,$amt){
+		 $CI =& get_instance();
+		$CI->load->database();
+		$ledger_get_amount=$CI->db->query('update accounting_ledgers set AMOUNT="'.$amt.'" where ID="'.$ledgerid.'"');
+		return true;
+	}
+	
+	function insert_record_transaction($drid,$crid,$br_id,$particular,$amt,$dt,$comp_id){
+		 $CI =& get_instance();
+		$CI->load->database();
+		$details=array
+		(
+				 	'DR_ID'=>$drid,
+				 	'CR_ID'=>$crid,
+				 	'BRANCH_ID'=>$br_id,
+				 	'PARTICULAR'=>$particular,
+				 	'AMOUNT'=>$amt,
+				 	'DATE'=>$dt,
+					'COMPANY_ID'=>$comp_id
+		);
+		$CI->db->insert('accounts',$details);
+		return true;
+	}
+	function get_hrm_full($hrm_id){
+		 $CI =& get_instance();
+		$CI->load->database();
+		$hrm_dt=$CI->db->query("select * from hrm where HRM_ID='".$hrm_id."'");
+		$hrm_dt=$hrm_dt->result();
+		
+		return $hrm_dt;
+	}
+	function get_plan_dt($plan_activation_id){
+		 $CI =& get_instance();
+		$CI->load->database();
+		$sql="SELECT plan.PLAN_NAME FROM plan_activation LEFT Join plan_emi ON plan_activation.PLAN_EMI_ID=plan_emi.PLAN_EMI_ID LEFT JOIN plan ON plan_emi.PLAN_ID=plan.PLAN_ID where plan_activation.PLAN_ACTIVATION_ID='".$plan_activation_id."'";
+		$plan_dt=$CI->db->query($sql);
+		$plan_dt=$plan_dt->result();
+		return $plan_dt;
+	}
