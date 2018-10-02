@@ -23,7 +23,7 @@
 													<th>Rank</th>
 													<th>Name</th>													
 													<th>Customers</th>
-													<th>Commission</th>	
+													<th>Commission Amount</th>	
 													<th>Contact</th>
 													<th>Tools</th>																
 												</tr>

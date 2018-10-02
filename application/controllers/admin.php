@@ -21,8 +21,7 @@ class Admin extends CI_Controller
 	}
 	public function dashboard()
 	{
-		$this->load->view('admin/registration_forms/dashboard');
-		
+		$this->load->view('admin/registration_forms/dashboard');		
 	}
 	
 	public function add_company()
@@ -156,6 +155,10 @@ class Admin extends CI_Controller
 		$query=$this->admin_model->wallet_details($hrm_id);
 		if(!empty($query)){
 				$data['view_customer_details']=$query;
+		}
+		else
+		{
+			$data['view_customer_details']="";
 		}
 		$this->load->view('admin/header');
 		$this->load->view('admin/customer_details',$data);

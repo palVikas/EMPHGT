@@ -1,4 +1,77 @@
-<!--CUSTOMER DETAIL MODAL-->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Payment</h4>
+      </div>
+      <div class="modal-body">
+        <form action="<?php echo base_url('extra/commission_divide/new_function'); ?>" method="post">       	
+        	<div class="row">
+        		<div class="col-md-4">
+					<div class="form-group">
+						<input type="hidden" name="hrm_id" id="hrm_id1" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<input type="hidden" name="plan_act_id" id="plan_id1" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<input type="hidden" name="receipt_no" id="receipt_no" class="form-control">
+					</div>
+				</div>
+        	</div>
+        	<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="recipient-name" class="control-label mb-10">Name</label>
+						<input type="text" name="name" readonly class="form-control" id="name">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="message-text" class="control-label mb-10">wallet</label>
+						<input type="text" name="amount" readonly class="form-control" id="amount" required>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="recipient-name" class="control-label mb-10">Mode of payment</label>
+						<select class="form-control" name="type" required>
+							<option value="1" selected>Cash</option>
+							<option value="2">Cheque</option>
+							<option value="3">Demand draft</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="message-text" class="control-label mb-10">Date</label>
+						<input type="date" id="date" class="form-control" name="date">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<input type="submit" name="sub" class="btn btn-info btn-md">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+        </form>
+      </div>
+    </div>
+     
+
+  </div>
+</div>
 
 <!-- Main Content -->
 <div id="main_content">
@@ -82,7 +155,8 @@
 							$("#name").val(name);
 							$("#amount").val(result['sum']);	
 							$("#hrm_id1").val(result['HRM_ID']);
-							$("#plan_id1").val(result['PLAN_ACTIVATION_ID']);		
+							$("#plan_id1").val(result['PLAN_ACTIVATION_ID']);
+							$("#receipt_no").val(result['RECEIPT_NO']);		
 							$("#myModal").modal();
 						}
 						else

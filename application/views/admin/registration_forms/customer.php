@@ -18,7 +18,8 @@
 						</div>
 						<!-- Row -->
 					<div class="row">
-						<div class="col-sm-9">
+						<form method="post" action="<?php echo base_url('admin/register_customer'); ?>" enctype="multipart/form-data">
+							<div class="col-sm-8">
 							<div class="panel panel-default card-view">
 								<div class="panel-heading">
 									<div class="pull-left">
@@ -29,14 +30,14 @@
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
 										<div class="form-wrap">
-											<form method="post" action="<?php echo base_url('admin/register_customer'); ?>" enctype="multipart/form-data">
+											
 												<div class="row">												
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
 														<select name="title" id="" class='form-control' name="title">
-														<option value="mr.">Mr.</option>
-														<option value="mrs.">Mrs.</option>
-														<option value="ms.">Ms.</option>
+														<option value="Mr.">Mr.</option>
+														<option value="Mrs.">Mrs.</option>
+														<option value="Ms.">Ms.</option>
 														</select>
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
@@ -54,7 +55,7 @@
 												</div>
 
 												<div class="row">
-													<div class="form-group col-md-6 col-sm-6">
+													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">Sex</label>
 														<select name="sex" class="form-control" required>
 															<option value="">--Select gender--</option>
@@ -62,7 +63,7 @@
 															<option value="f">FEMALE</option>
 														</select>
 													</div>
-													<div class="form-group col-md-6 col-sm-6">
+													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">Profession</label>
 														<select name="profession" class="form-control js-example-basic-single" required>
 															<option value="">--select profession--</option>
@@ -74,7 +75,11 @@
 																}
 															?>
 														</select>
-													</div>	
+													</div>													
+													<div class="form-group col-md-4 col-sm-4">
+														<label class="control-label mb-10 text-left">Credit limit</label>
+														<input type="number" class="form-control" name="credit_lim" oninput="number(this)" maxlength="7">
+													</div>		
 												</div>
 
 											
@@ -137,72 +142,7 @@
 														<label class="control-label mb-10 text-left">Registration date</label>
 														<input type="DATE" id="reg_date" class="form-control" name="reg_date" required>
 													</div>											
-													
-												<!--<div class="form-group col-md-4">
-														<label class="control-label mb-10 text-left">Upload photo</label>
-														<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-															<div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-															<span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
-															<input type="file" name="image" required="">
-															</span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
-														</div>
-													</div>-->
-												</div>
-
-												<div class="form-body">
-													<br><br>
-													<h6 class="txt-dark capitalize-font">Plan details</h6>
-													<hr class="light-gray-hr">
-												</div>
-
-												<div class="row">
-													<div class="form-group col-md-6">
-														<label class="control-label mb-10 text-left">Plan Type</label>
-														<select name="ac_type" class="form-control js-example-basic-single" id="plan_type" required>
-															<option value="">--Select plan type--</option>
-														<?php 															
-															$q=$this->db->select("*")->from('plan_type')
-															->where('PLAN_TYPE_ID !=',4)->get()->result();
-															foreach ($q as $row) 
-															{
-																echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
-
-
-															}
-														?>
-														</select>
-													</div>
-														<div class="form-group col-md-6 col-sm-6">
-														<label class="control-label mb-10 text-left">Credit limit</label>
-														<input type="number" class="form-control" name="credit_lim" oninput="number(this)" maxlength="7">
-													</div>	
-												</div>
-
-											
-
-												<div class="row">
-													<div class="form-group col-md-4">
-														<label class="control-label mb-10 text-left">Plan name</label>
-														<select name="plan_name" class="form-control js-example-basic-single" id="plan_name" required>
-															<option value="">--Select plan--</option>
-														</select>
-														
-													</div>
-													<div class="form-group col-md-4">
-														<label class="control-label mb-10 text-left">Amount</label>
-														<select name="plan_amount" class="form-control js-example-basic-single" id="plan_amount" required>
-															<option value="">--Select plan amount--</option>
-														
-														</select>
-													</div>
-													<div class="form-group col-md-4">
-														<label class="control-label mb-10 text-left">Duration(In month)</label>
-														<select name="plan_duration" class="form-control js-example-basic-single" id="plan_duration" required>
-															<option value="">--Select plan duration--</option>
-														
-														</select>
-													</div>
-												</div>
+												</div>												
 
 												<div class="form-body">
 													<br><br>
@@ -310,12 +250,73 @@
 												<div class="form-group mb-30">
 													<input class="btn btn-primary btn-md" type="submit" name="submit">
 												</div>
-											</form>
+											
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="panel panel-default card-view">
+								<div class="panel-wrapper collapse in">
+									<div class="panel-title align-center">Plan Selecter</div>
+									<div class="panel-body">
+										<div class="form-wrap">												
+											
+												<div class="form-group">
+													<label>Plan Type</label>
+													<select class="form-control" name="ac_type" id="calc_plan_type" required>
+														<option value="">--Select plan type--</option>
+														<?php 															
+															$q=$this->db->select("*")->from('plan_type')
+															->where('PLAN_TYPE_ID !=',4)->get()->result();
+															foreach ($q as $row) 
+															{
+																echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
+
+
+															}
+														?>
+													</select>
+												</div>
+												<div class="form-group">
+													<label>Plan Name</label>
+													<select class="form-control" name="plan_name" id="calc_plan_name" required>
+														<option value="">--Select plan Name--</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label>Plan Amount</label>
+													<select class="form-control" name="plan_amount" id="calc_plan_amount" required>
+														<option value="">--Select Installment Amount --</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<input type="hidden" class="form-control" name="plan_duration" id="calc_plan_duration">
+												</div>
+												<div class="form-group">
+													<button type="button" class="btn btn-sm btn-primary form-control" id="calculate" style="float:right">Calculate</button>
+												</div>		
+												<div class="form-group">
+													<label>Redemption Value</label>
+													<input type="text" class="form-control" id="redemption_value" readonly>
+												</div>
+												<div class="form-group">
+													<label>Loyelty Bonus</label>
+													<input type="text" class="form-control" id="loyelty_bonus" readonly>
+												</div>
+												<div class="form-group">
+													<label>Total Amount</label>
+													<input type="text" class="form-control" id="total_amount" readonly>
+												</div>										
+																						
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</form>
+						
 					</div>
 					<!-- /Row -->
 					</div>
@@ -338,7 +339,7 @@
 						$('.js-example-basic-single').select2();
 					})
 
-
+					//select plan type for customer
 					$("#plan_type").on('change',function(){
 						$.ajax({
 							url:"<?php echo base_url('extra/check/get_plans'); ?>",
@@ -359,7 +360,7 @@
 							}
 						});
 					});
-
+					//select plan name for customer
 					$("#plan_name").on('change',function(){
 						var type_id=$("#plan_type").val();
 						$.ajax({
@@ -381,6 +382,7 @@
 						});
 					});
 
+					//select plan amount for customer
 					$("#plan_amount").on('change',function(){
 						var type_id=$("#plan_name").val();
 						
@@ -402,6 +404,7 @@
 						});
 					});
 
+					//select added by for customer
 					$("#added_by").on('change',function(){						
 						$.ajax({
 							url:"<?php echo base_url('extra/check/get_under'); ?>",
@@ -420,7 +423,103 @@
 						});
 					});
 					
-					
+					//Select Plan Type For Calculation
+					$('#calc_plan_type').on('change',function(){
+						$.ajax({
+							url:"<?php echo base_url('extra/check/get_plans') ?>",
+							type:"post",
+							data:{data:$('#calc_plan_type').val()},
+							dataType:"json",
+							success:function(result)
+							{
+								$('#calc_plan_name').html('<option value="">--Select plan Name--</option>');
+								$('#calc_plan_amount').html('<option value="">--Select Installment Amount --</option>');
+								$('#calc_plan_duration').html('<option value="">--Select Plan Duration--</option>');
+								for(var i in result)
+								{
+									$('#calc_plan_name').append('<option value="'+result[i]['PLAN_ID']+'">'+result[i]['PLAN_NAME']+'</option>');
+								}
+							},
+							error:function()
+							{
+								alert('Error');
+							}
+						});
+					})
+
+					//Select plan Name For Calculation
+					$('#calc_plan_name').on('change',function(){
+						$.ajax({
+							url:"<?php echo base_url('extra/check/get_amount') ?>",
+							type:"post",
+							data:{data:$('#calc_plan_name').val()},
+							dataType:"json",
+							success:function(result)
+							{								
+								$('#calc_plan_amount').html('<option value="">--Select Installment Amount --</option>');
+								$('#calc_plan_duration').html('<option value="">--Select Plan Duration--</option>');
+								for(var i in result)
+								{
+									$('#calc_plan_amount').append('<option value="'+result[i]['PLAN_EMI_AMOUNT']+'">'+result[i]['PLAN_EMI_AMOUNT']+'</option>');
+								}
+							},
+							error:function()
+							{
+								alert('Error');
+							}
+						});
+					})
+
+					//Select plan Period For Calculation
+					$('#calc_plan_amount').on('change',function(){
+						$.ajax({
+							url:"<?php echo base_url('extra/check/get_duration') ?>",
+							type:"post",
+							data:{data:$('#calc_plan_amount').val(),id:$('#calc_plan_name').val()},
+							dataType:"json",
+							success:function(result)
+							{								
+								$('#calc_plan_duration').html('<option value="">--Select Plan Duration--</option>');
+								for(var i in result)
+								{
+									// $('#calc_plan_duration').append('<option value="'+result[i]['PLAN_EMI_PERIOD']+'">'+result[i]['PLAN_EMI_PERIOD']+'</option>');
+									$('#calc_plan_duration').val(result[i]['PLAN_EMI_PERIOD']);
+								}
+							},
+							error:function()
+							{
+								alert('Error');
+							}
+						});
+					})
+
+					//Calculate 
+					$('#calculate').on('click',function(){
+						if($('#calc_plan_amount').val()=="" || $('#calc_plan_name').val()=="" || $('#calc_plan_type').val()=="")
+						{
+							alert('Fill all Fiels To Calculate')
+						}
+						else
+						{
+							$.ajax({
+								url:"<?php echo base_url('extra/check/calculate') ?>",
+								type:"post",
+								data:{plan_id:$('#calc_plan_name').val(),amount:$('#calc_plan_amount').val(),duration:$('#calc_plan_duration').val(),plan_type:$('#calc_plan_type').val()},
+								dataType:"json",
+								success:function(result)
+								{
+									$('#redemption_value').val(result[0]);
+									$('#loyelty_bonus').val(result[1]);								
+									$('#total_amount').val(result[2]);
+								},
+								error:function()
+								{
+									alert('Error');
+								}
+							})
+						}
+					})
+
 					function number(x)
 					{
 						if (x.value.length > x.maxLength) x.value = x.value.slice(0, x.maxLength);

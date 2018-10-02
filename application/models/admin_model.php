@@ -55,11 +55,14 @@ class Admin_model extends CI_Model {
 			$plan_activate = $this->db->query("select * from plan_activation where PLAN_ACTIVATION_ID=$plan_activation_id");
 			$plan_activate=$plan_activate->result();
 			$plan_emi_id=$plan_activate[0]->PLAN_EMI_ID;
-			$plan_type_dt = $this->db->query("select * from plan where PLAN_ID=$plan_emi_id");
+			
+			$plan_type_dt = $this->db->query("select * from plan_emi where PLAN_EMI_ID=$plan_emi_id");
 			$plan_type_dt=$plan_type_dt->result();
 			$plan_period_id=$plan_type_dt[0]->PLAN_ID;
-			$plan_period_id = $this->db->query("select * from plan_emi where PLAN_ID=$plan_period_id");
+			
+			$plan_period_id = $this->db->query("select * from plan where PLAN_ID=".$plan_period_id);
 			$plan_period_id=$plan_period_id->result();
+			
 			$hrm_relation = $this->db->query("select * from hrm_relation where NEW_HRM_ID=$hrm_id");
 			$hrm_relation=$hrm_relation->result();
 			$hrm_added_by=$hrm_relation[0]->HRM_ADDED_BY;
@@ -69,11 +72,11 @@ class Admin_model extends CI_Model {
 			$min['WALLET_AMOUNT']=$plan_activation->WALLET_AMOUNT;
 			$min['WALLET_TRANSACTION_TIME']=$plan_activation->WALLET_TRANSACTION_TIME;
 			$min['PLAN_ACTIVATION_ID']=$plan_activation->PLAN_ACTIVATION_ID;
-			$min['plan_name']=$plan_type_dt[0]->PLAN_NAME;
+			$min['plan_name']=$plan_period_id[0]->PLAN_NAME;
 			$min['first']=$agent_nm[0]->HRM_FIRST_NAME;
 			$min['middle']=$agent_nm[0]->HRM_MIDDLE_NAME;
 			$min['last']=$agent_nm[0]->HRM_LAST_NAME;
-			$min['plan_emi_period']=$plan_period_id[0]->PLAN_EMI_PERIOD;
+			$min['plan_emi_period']=$plan_type_dt[0]->PLAN_EMI_PERIOD;
 			array_push($all_array, $min);
 		}
 		return $all_array; 

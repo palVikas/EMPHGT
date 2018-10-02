@@ -1,5 +1,5 @@
 <?php
-print_r($view_customer_details);
+//print_r($view_customer_details);
 
 ?>
 <!-- Main Content -->
@@ -68,31 +68,6 @@ print_r($view_customer_details);
 	</div>
 </div>
 	<script type="text/javascript">
-		/*var table=$('#tbl').dataTable(
-				{
-				"serverSide": true,
-				"ajax":{"url":"<?php echo base_url('admin/get_invoice'); ?>"},
-				"columns":
-						[
-							{"data":"WALLET_ID"},
-							{"data":"PLAN_ID"},
-							{"data":"PLAN_NAME"},
-							{"data":"WALLET_AMOUNT"},
-							{"data":"PLAN_EMI_PERIOD"},
-							{"data":"WALLET_TRANSACTION_TIME"},
-							{"data":"HRM_FIRST_NAME"},
-							{"data":"WALLET_ID",render:function(data,type,row)
-								{	
-									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
-									return "<button onclick='print_this("+data+")' type='button' class='btn btn-sm btn-info'>Print</button>"
-								}
-							}
-							
-							
-							
-						]
-					});
-*/
 		function print_this(data)
 		{
 			window.location='<?php echo base_url("admin/print_invoice/")?>'+data;

@@ -38,8 +38,6 @@ class Register extends CI_model
 				'HRM_PAN'=>$data['pan'],
 				'HRM_ADHAAR'=>$data['aadhar'],
 				'HRM_GST'=>$data['gst'],
-				'HRM_USERNAME'=>$data['user'],
-				'HRM_PASSWORD'=>$data['pass'],
 				'HRM_STATUS'=>1,
 				'BRANCH_ID'=>$data['branch'],
 				'HRM_PROFESSION_ID'=>$data['profession'],
@@ -92,9 +90,11 @@ class Register extends CI_model
 						);
 
 		$this->db->insert('hrm_relation',$relation_details);
-
+		$receipt=$this->db->select_max('RECEIPT_ID')->from('wallet_details')->get()->row()->RECEIPT_NO;
+		$receipt=$receipt+1;
 		$wallet_details=array
 						(
+							'RECEIPT_NO'=>$receipt,
 							'WALLET_AMOUNT'=>(-1)*$data['plan_amount'],
 							'WALLET_TRANSACTION_METHOD'=>"PLAN PURCHASE",
 							'HRM_ID'=>$cust_id,

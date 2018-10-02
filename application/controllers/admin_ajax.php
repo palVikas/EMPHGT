@@ -18,7 +18,7 @@ class Admin_ajax extends CI_Controller
 	{		
 		$this->load->library('Datatables');
 
-		$this->datatables->select('*,SUM(WALLET_AMOUNT) as sum,CONCAT(HRM_TITLE," ",HRM_FIRST_NAME," ",HRM_MIDDLE_NAME," ",HRM_LAST_NAME) as name')->from('hrm')
+		$this->datatables->select('*,SUM(WALLET_AMOUNT) as sum,RECEIPT_NO,CONCAT(HRM_TITLE," ",HRM_FIRST_NAME," ",HRM_MIDDLE_NAME," ",HRM_LAST_NAME) as name')->from('hrm')
 									  ->join('wallet_balance','wallet_balance.HRM_ID=hrm.HRM_ID')
 								   	  ->group_by('wallet_balance.HRM_ID')						
 									  ->where('hrm.HRM_TYPE_ID',4);

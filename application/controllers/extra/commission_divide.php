@@ -42,14 +42,15 @@ class Commission_divide extends CI_Controller
 	{
 		$member_id=$_SESSION['current_cust_id'];
 		$amt=(-1)*($_POST['amount']);
-		$last_invoice_no=$this->db->select_max('INVOICE_NO')->from('wallet_balance')->get()->row()->INVOICE_NO;
+		$receipt_no=$_POST['receipt_no'];
+		$last_invoice_no=$this->db->select_max('RECEIPT_NO')->from('wallet_balance')->get()->row()->RECEIPT_NO;
 		$invoice=$last_invoice_no+1;
 
 		$details=array
 				 (
 				 	'WALLET_AMOUNT'=>$amt,
 				 	'WALLET_TRANSACTION_METHOD'=>$_POST['type'],
-				 	'INVOICE_NO'=>$invoice,
+				 	'RECEIPT_NO'=>$receipt_no,
 				 	'HRM_ID'=>$_POST['hrm_id'],
 				 	'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt
@@ -88,7 +89,7 @@ class Commission_divide extends CI_Controller
 			$wallet_details=array
 								(
 									'WALLET_AMOUNT'=>$total_commission,
-									'WALLET_TRANSACTION_METHOD'=>"BONUS",
+									'WALLET_TRANSACTION_METHOD'=>"5",
 									'HRM_ID'=>$sponcer_id,
 									'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 									'WALLET_REMARK'=>'Multi level commission'
@@ -111,7 +112,7 @@ class Commission_divide extends CI_Controller
 		$wallet_details=array
 						(
 							'WALLET_AMOUNT'=>$total_commission,
-							'WALLET_TRANSACTION_METHOD'=>"BONUS",
+							'WALLET_TRANSACTION_METHOD'=>"5",
 							'HRM_ID'=>$sponcer_id,
 							'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 							'WALLET_REMARK'=>'Multi level commission'
