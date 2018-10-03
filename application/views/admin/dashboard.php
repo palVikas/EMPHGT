@@ -185,7 +185,7 @@
 				tbl.tbl =$('#tbl').dataTable(
 				{
 				"ajax":{
-					"url":"<?php echo base_url('admin_dashboard/report'); ?>",
+					"url":admin_loc+"report_dashboard",
 					"data":data,
 					"type":"post"
 					},

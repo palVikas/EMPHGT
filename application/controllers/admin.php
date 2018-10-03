@@ -8,129 +8,115 @@ class Admin extends CI_Controller
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->model('admin_model');
+		$this->load->helper('gernal_helper');
 		if($this->session->userdata['agro_p_signed_in']==''){
-			redirect('login/index');
+			redirect('login');
 		}
 	}
 
-	public function index()
-	{
-		$this->load->view('admin/header');
-		$this->load->view('admin/registration_forms/dashboard');
-		$this->load->view('admin/footer');
-	}
 	public function dashboard()
 	{
-		$this->load->view('admin/registration_forms/dashboard');		
+		$this->load->view('admin/header');
+		$this->load->view('admin/dashboard');
+		$this->load->view('admin/footer');		
+	}
+	public function branch()
+	{
+		$data=array();
+		$this->load->view('admin/header');
+		
+		if($this->uri->segment(3)=="add"){
+			$this->load->view('admin/branch/add_branch');
+		}
+		else if($this->uri->segment(3)=="edit"){
+			$query=$this->admin_model->get_unique_branch($this->uri->segment(4));
+			if(!empty($query)){
+				$data['unique_branch']=$query;
+			}
+			$this->load->view('admin/branch/edit_branch',$data);
+		}
+		else if($this->uri->segment(3)=="view"){
+			$this->load->view('admin/branch/view_branch');
+		}
+		else{
+			$query=$this->admin_model->get_all_branch();
+			if(!empty($query)){
+				$data['all_branch']=$query;
+			}
+			$this->load->view('admin/branch/branch_list',$data);
+		}
+		$this->load->view('admin/footer');		
 	}
 	
-	public function add_company()
-	{
-		$data=$this->load->view('admin/registration_forms/add_company');
-		echo json_encode($data);
-	}
-	
-	public function add_branch()
-	{
-		$data=$this->load->view('admin/registration_forms/add_branch');
-		
-	}
-	public function add_customer()
-	{
-		$data=$this->load->view("admin/registration_forms/customer");
-		echo json_encode($data);
-	}
-	public function relation()
-	{
-		$data=$this->load->view("admin/registration_forms/relation");
-		echo json_encode($data);
-	}
-	public function add_advisor()
-	{
-		
-		$data=$this->load->view('admin/registration_forms/add_advisor');
-		
-	}
-	
-	public function register_advisor()
-	{
-		$this->load->model('admin/register_advisor');
-		$this->register_advisor->advisor($this->input->post());
-	}
-
-	public function advisor_list()
+	public function advisor()
 	{
 		$data[]=array();
+		$this->load->view('admin/header');
 		if($this->uri->segment(3)=="view" ){
 			$query=$this->admin_model->get_unique_cust_hrm($this->uri->segment(4));
 			if(!empty($query)){
 				$data['get_unique_customer_fr_advisor']=$query;
 			}
-			$this->load->view('admin/header');
-			$this->load->view('admin/registration_forms/view_customers',$data);
-			$this->load->view('admin/footer');
+			
+			$this->load->view('admin/advisor/view_customers',$data);
+			
+		}else if($this->uri->segment(3)=="add_advisor"){
+			$this->load->view('admin/advisor/add_advisor');	
 		}
 		else{
 			$query=$this->admin_model->get_all_advisor();
 			if(!empty($query)){
 				$data['get_list_advisor']=$query;
 			}
-			$this->load->view('admin/registration_forms/Advisor_list',$data);
+			$this->load->view('admin/advisor/advisor_list',$data);
 		}
+		$this->load->view('admin/footer');
 	}
-	public function cust_list()
-	{		
-		$this->load->view('admin/registration_forms/customers_list');
+	
+	public function customer()
+	{
+		$data[]=array();
+		$this->load->view('admin/header');
+		
+	
+		if($this->uri->segment(3)=="view" ){
+			$hrm_id=$this->uri->segment(4);
+			$query=$this->admin_model->wallet_details($hrm_id);
+			if(!empty($query)){
+					$data['view_customer_details']=$query;
+			}
+			else
+			{
+				$data['view_customer_details']="";
+			}
+		
+			$this->load->view('admin/customer/view_customer_details',$data);
+			
+			
+		}else if($this->uri->segment(3)=="add_customer"){
+			$this->load->view('admin/customer/add_customer');	
+		}
+		else if($this->uri->segment(3)=="invoice_details_customer"){
+			
+			$wallet_id=$this->uri->segment(4);
+			$data['data']=$this->admin_model->print_invoice($wallet_id);
+			$this->load->view('admin/customer/invoice_details_customer',$data);	
+		}
+		else{
+			$this->load->view('admin/customer/customers_list');
+		}
+		$this->load->view('admin/footer');
+	}
+	
+	
+	public function company()
+	{
+		$this->load->view('admin/header');
+		$data=$this->load->view('admin/comapny/add_company');
+		$this->load->view('admin/footer');
 		
 	}
-
-
-	public function super_adviser()
-	{
-		$this->load->view('admin/registration_forms/add_hrm');
-	}
-
-	public function register_customer()
-	{
-		$this->load->model('admin/register');
-		$data=$this->register->register_customer($this->input->post());
-	}
-
-	public function register_customer1()
-	{
-		$this->load->model('admin/register');
-		$data=$this->register->register_customer();
-		if($data=="successfully registered") 
-		{
-			echo "<script>alert($data);</script>";	
-			$this->load->view('admin/registration_forms/add_hrm');
-		}
-		else
-		{
-			echo "<script>alert($data);</script>";	
-		}
-		
-	}
-
-	public function register_branch()
-	{
-		$this->load->model('admin/register');
-		$this->register->register_branch();
-	}
-
-	public function create_relation()
-	{
-		$data=array
-				(
-					'NEW_HRM_ID'=>$_POST['child'],
-					'HRM_PARENT_ID'=>$_POST['parent'],
-					'HRM_ADDED_BY'=>$_POST['parent']
-				);
-
-		$this->db->insert('hrm_relation',$data);
-		echo "<script>alert('inserted');window.location='index';</script>";	
-	}
-
+	
 
 	public function activate()
 	{
@@ -149,22 +135,6 @@ class Admin extends CI_Controller
 		print_r($data);							
 	}
 
-	public function view_customer_details()
-	{  
-		$hrm_id=$this->uri->segment(3);
-		$query=$this->admin_model->wallet_details($hrm_id);
-		if(!empty($query)){
-				$data['view_customer_details']=$query;
-		}
-		else
-		{
-			$data['view_customer_details']="";
-		}
-		$this->load->view('admin/header');
-		$this->load->view('admin/customer_details',$data);
-		$this->load->view('admin/footer');
-	}
-
 	public function get_invoice()
 	{
 		$cust_id=$_SESSION['current_cust_id'];
@@ -180,14 +150,6 @@ class Admin extends CI_Controller
 								   	  ->where('wallet_balance.WALLET_AMOUNT >',0);
 
 		echo $this->datatables->generate();
-	}
-
-	public function print_invoice()
-	{
-		$wallet_id=$this->uri->segment(3);
-		$this->load->model('Getting_invoice_details');
-		$data['data']=$this->Getting_invoice_details->print_invoice($wallet_id);
-		$this->load->view('invoice_details1',$data);
 	}
 
 	public function customers_under()

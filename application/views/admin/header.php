@@ -33,6 +33,9 @@
 			    -webkit-appearance: none;
 			    margin: 0;
 			}
+			.error{
+				display:none;
+			}
 		</style>
 		
 		<!-- Summernote css -->
@@ -53,134 +56,153 @@
 		<link rel="stylesheet" href="<?php echo base_url('include/vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css'); ?>" />
 
 		<script type="text/javascript">
-		
+		var admin_loc='<?php echo base_url(); ?>'+'admin_ajax/';
 			
 			$(document).ready(function(){
 				
-				$('.dashboard').click(function() {
-					$("#main_content").html('');
+				
+				$("#add_branch").on('submit', function(e){
+					e.preventDefault();
 					$.ajax({
-						url:"<?php echo base_url('admin/dashboard'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
+						type: 'POST',
+						url: admin_loc+'register_branch',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function(){
+							$('.add_branch_hd').attr("disabled","disabled");
+							
 						},
-						error:function()
-						{
-							alert("error");
+						success: function(msg){
+							msg=$.trim(msg);
+							if(msg == 'err'){
+									$('#add_branch')[0].reset();
+									$('.error').show();
+									 $('.error').html('New branch added successfully!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_branch_hd").attr("disabled",false);
+							}else{
+									 $('.error').show();
+									 $('.error').html('Something wents wrong!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_branch_hd").attr("disabled",false);
+								}
+								
+							
+						}
+					});
+				});
+				$("#update_branch").on('submit', function(e){
+					e.preventDefault();
+					$.ajax({
+						type: 'POST',
+						url: admin_loc+'update_branch',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function(){
+							$('.add_branch_hd').attr("disabled","disabled");
+							
+						},
+						success: function(msg){
+							msg=$.trim(msg);
+							if(msg == 'err'){
+									
+									$('.error').show();
+									 $('.error').html('Branch detail updated successfully!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_branch_hd").attr("disabled",false);
+							}else{
+									 $('.error').show();
+									 $('.error').html('Something wents wrong!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_branch_hd").attr("disabled",false);
+								}
+								
+							
+						}
+					});
+				});
+				$("#add_advisor").on('submit', function(e){
+					e.preventDefault();
+					$.ajax({
+						type: 'POST',
+						url: admin_loc+'register_advisor',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function(){
+							$('.add_advisor').attr("disabled","disabled");
+							
+						},
+						success: function(msg){
+							msg=$.trim(msg);
+							if(msg == 'err'){
+									$('#add_advisor')[0].reset();
+									$('.error').show();
+									 $('.error').html('New Advisor added successfully!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_advisor").attr("disabled",false);
+							}else{
+									 $('.error').show();
+									 $('.error').html('Something wents wrong!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_advisor").attr("disabled",false);
+								}
+								
+							
 						}
 					});
 				});
 				
-				$('.add_branch').click(function() {
-					$("#main_content").html('');
+				$("#add_customer").on('submit', function(e){
+					e.preventDefault();
 					$.ajax({
-						url:"<?php echo base_url('admin/add_branch'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
+						type: 'POST',
+						url: admin_loc+'register_customer',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function(){
+							$('.add_customer').attr("disabled","disabled");
+							
 						},
-						error:function()
-						{
-							alert("error");
+						success: function(msg){
+							msg=$.trim(msg);
+							if(msg == 'err'){
+									$('#add_customer')[0].reset();
+									$('.error').show();
+									 $('.error').html('New Customer added successfully!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_customer").attr("disabled",false);
+							}else{
+									 $('.error').show();
+									 $('.error').html('Something wents wrong!');
+									 $('.error').focus();
+									 $('.error').delay(3000).fadeOut();
+									 $(".add_customer").attr("disabled",false);
+								}
+								
+							
 						}
 					});
 				});
-				$('.list_branch').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/add_branch'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
-				$('.list_branch').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/add_branch'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
-				$('.advisor_list').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/advisor_list'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
-				$('.add_advisor').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/add_advisor'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
-				$('.customer_list').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/cust_list'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
-				$('.add_customer').click(function() {
-					$("#main_content").html('');
-					$.ajax({
-						url:"<?php echo base_url('admin/add_customer'); ?>",
-						type:"post",
-						success:function(result)
-						{
-							$("#main_content").html(result);
-						},
-						error:function()
-						{
-							alert("error");
-						}
-					});
-				});
+				
+				
 			});
+			
 		</script>
-        
 
 
 			
@@ -263,52 +285,23 @@
 						<i class="zmdi zmdi-more"></i>
 					</li>
 					<li>
-						<a class="active dashboard" href="javascript:void(0)"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						<a class="<?php if($this->uri->segment(2)=="dashboard") echo "active"; ?> dashboard" href="<?php echo base_url(); ?>admin/dashboard""><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>
-					<!--<li>
-						<a href="javascript:add_company()"><div class="pull-left"><i class="fas fa-industry mr-20"></i><span class="right-nav-text">Company</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-					</li>-->					
-					<!--<li>
-						<a href="javascript:add_branch();"><div class="pull-left"><i class="fas fa-sitemap mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-					</li>-->		
-							
 					<li>
-						<a href="javascript:void(0);" data-toggle="collapse" data-target="#branch"><div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Branch </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-						<ul id="branch" class="collapse collapse-level-1">
-							<li>
-								<a class="add_branch" href="javascript:void(0);">Add New Branch</a>
-							</li>
-							<li>
-								<a class="list_branch" href="javascript:void(0);">List of Branches</a>
-							</li>	
-						</ul>
+						
+						<a class="<?php if($this->uri->segment(2)=="branch") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/branch"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>
-					
-
 					<li>
-						<a href="javascript:void(0);" data-toggle="collapse" data-target="#adv"><div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Advisor </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-						<ul id="adv" class="collapse collapse-level-1">
-							<li>
-								<a class="advisor_list" href="javascript:void(0);">Advisor list</a>
-							</li>
-							<li>
-								<a class="add_advisor" href="javascript:void(0);">Add advisor</a>
-							</li>	
-						</ul>
+						<a class="<?php if($this->uri->segment(2)=="advisor") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/advisor"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Advisor</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						
 					</li>
 
 					<li>
-						<a href="javascript:void(0);" data-toggle="collapse" data-target="#app_dr"><div class="pull-left"><i class="fas fa-user-plus mr-20"></i><span class="right-nav-text">Customer </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-						<ul id="app_dr" class="collapse collapse-level-1">
-							<li>
-								<a class="customer_list" href="javascript:void(0);">Customer list</a>
-							</li>
-							<li>
-								<a class="add_customer" href="javascript:void(0);">Add Customer</a>
-							</li>	
-						</ul>
+						<a class="<?php if($this->uri->segment(2)=="customer") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/customer"><div class="pull-left"><i class="fas fa-user-plus mr-20"></i><span class="right-nav-text">Customer</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						
 					</li>			
 				</ul>
 			</div>
+			<br><br>
 			<!-- /Left Sidebar Menu -->
 			

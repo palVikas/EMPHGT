@@ -96,3 +96,14 @@
 		$plan_dt=$plan_dt->result();
 		return $plan_dt;
 	}
+	function generate_reg($prefix,$rank,$length,$num)
+	{
+		$num_length=strlen($num);
+	 	$required_length=$length-$num_length;
+	 	$z="";
+	 	for ($i=0; $i <$required_length ; $i++) 
+	 	{ 
+	 		$z=$z."0";
+	 	}
+	 	return $prefix.$rank.$z.$num;
+	}

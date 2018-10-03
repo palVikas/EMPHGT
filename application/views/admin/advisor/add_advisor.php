@@ -24,12 +24,14 @@
 									<div class="pull-left">
 										<h6 class="panel-title txt-dark"><center>Add Advisor</center></h6>
 									</div>
+									
 									<div class="clearfix"></div>
 								</div>
+								<div class="error alert alert-success">hello</div>
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
 										<div class="form-wrap">
-											<form method="post" action="<?php echo base_url('admin/register_advisor'); ?>">
+											<form id="add_advisor">
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">Sponser</label>
@@ -298,7 +300,7 @@
 
 												
 												<div class="form-group mb-30">
-													<input class="btn btn-primary btn-md" type="submit" name="submit">
+													<input class="btn btn-primary btn-md add_advisor" type="submit" name="submit">
 												</div>
 											</form>
 										</div>
@@ -332,7 +334,7 @@
 				$(document).on("change","#sponser",function(){
 
 					$.ajax({
-						url:"<?php echo base_url('extra/Get_details/get_below_ranks'); ?>",
+						url:admin_loc+"get_below_ranks",
 						type:"post",
 						data:{data:$('#sponser').val()},
 						dataType:"json",

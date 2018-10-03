@@ -9,7 +9,7 @@
         <h4 class="modal-title">Payment</h4>
       </div>
       <div class="modal-body">
-        <form action="<?php echo base_url('extra/commission_divide/new_function'); ?>" method="post">       	
+        <form action="<?php echo base_url('commission_divide/comission_pay'); ?>" method="post">       	
         	<div class="row">
         		<div class="col-md-4">
 					<div class="form-group">
@@ -81,8 +81,13 @@
 				<div class="col-sm-12">
 					<div class="panel panel-default card-view">
 						<div class="panel-heading">
-							<div class="pull-left">
-								<h6 class="panel-title txt-dark">Subscriber List</h6>
+							<div class="row">
+								<div class="col-md-6">
+									<h6 class="panel-title txt-dark">Subscriber List</h6>
+								</div>
+								<div class="col-md-6 text-right">
+									<a href="<?php echo base_url(); ?>admin/customer/add_customer" class="btn btn-success">Add Subscriber</a>
+								</div>
 							</div>
 							<div class="clearfix"></div>
 						</div>
@@ -98,7 +103,8 @@
 													<th>Name</th>
 													<th>Wallet amount</th>
 													<th>address</th>
-													<th>pay</th>													
+													<th>pay</th>		
+													<th>Tools</th>											
 												</tr>
 											</thead>
 											<tbody>
@@ -119,7 +125,7 @@
 			
 				var table=$('#tbl').dataTable(
 				{
-				"ajax":{"url":"<?php echo base_url('admin_ajax/cust_list'); ?>"},
+				"ajax":{"url":admin_loc+"cust_list"},
 				"columns":
 						[
 							{"data":"HRM_REG_NO"},
@@ -128,13 +134,17 @@
 							{"data":"HRM_ADDRESS"},
 							{"data":"HRM_ID",render:function(data,type,row)
 								{	
-									//return '<button type="button" onclick="pay('+data+')" class="btn btn-info btn-sm">Pay</button>';
-									return "<div class='dropdown'><button class='btn btn-sm btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>options<span class='caret'></span></button> <ul class='dropdown-menu'>"+
-									     '<li><a href="javascript:pay('+data+')">pay</a></li>'+
-									      '<li><a href="<?php echo base_url('admin/view_customer_details/'); ?>'+data+'" >details</a></li>'+
-									    '</ul></div>'
+									return '<button type="button" onclick="pay('+data+')" class="btn btn-primary btn-sm">Pay</button>';
+									
+								}
+							},
+							{"data":"HRM_ID",render:function(data,type,row)
+								{	
+									return '<a href="<?php echo base_url(); ?>admin/customer/view/'+data+'" ><i class="fa fa-eye"></i></a>&nbsp;&nbsp;<a href="<?php echo base_url(); ?>admin/customer/edit/'+data+'" ><i class="fa fa-edit"></i></a>';
+									
 								}
 							}
+							
 							
 							
 							
@@ -143,7 +153,7 @@
 			function pay(data)
 			{
 				$.ajax({
-					url:"<?php echo base_url('extra/get_details/customer_details'); ?>",
+					url:admin_loc+"customer_details_model_pay",
 					type:"post",
 					data:{reg:data},
 					dataType:"json",
@@ -173,10 +183,4 @@
 				});
 			}
 
-			function view_details(data)
-			{
-				window.location='<?php echo base_url('admin/view_customer_details/') ;?>'+data;
-				//$('#customer_detail_modal').modal();
-			}
-		
 		</script>

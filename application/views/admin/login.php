@@ -10,7 +10,8 @@
 		<meta name="description" content="Doodle is a Dashboard & Admin Site Responsive Template by hencework." />
 		<meta name="keywords" content="admin, admin dashboard, admin template, cms, crm, Doodle Admin, Doodleadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
 		<meta name="author" content="hencework"/>
-		
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="<?php echo base_url('include/favicon.ico'); ?>">
 		<link rel="icon" href="<?php echo base_url('include/favicon.ico'); ?>" type="image/x-icon">
@@ -23,6 +24,45 @@
 		
 		<!-- Custom CSS -->
 		<link href="<?php echo base_url('include/dist/css/style.css'); ?>" rel="stylesheet" type="text/css">
+		<style>
+			.error{
+				display:none;
+			}
+		</style>
+		<script>
+		$(document).ready(function () {
+			var admin_loc='<?php echo base_url(); ?>'+'admin_ajax/';
+			$("#login_dt").on('submit', function(e){
+				e.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: admin_loc+'login_check',
+					data: new FormData(this),
+					contentType: false,
+					cache: false,
+					processData:false,
+					beforeSend: function(){
+						$('.login_btn').attr("disabled","disabled");
+						
+					},
+					success: function(msg){
+						msg=$.trim(msg);
+						if(msg == 'err'){
+							window.location='admin/dashboard';
+						}else{
+								 $('.error').show();
+								 $('.error').html('Invalid username and password!');
+								 $('.error').focus();
+								 $('.error').delay(3000).fadeOut();
+								 $(".login_btn").attr("disabled",false);
+							}
+							
+						
+					}
+				});
+			});
+		});
+		</script>
 	</head>
 	<body>
 		<!--Preloader-->
@@ -46,6 +86,7 @@
 			<div class="page-wrapper pa-0 ma-0 auth-page">
 				<div class="container-fluid">
 					<!-- Row -->
+				
 					<div class="table-struct full-width full-height">
 						<div class="table-cell vertical-align-middle auth-form-wrap">
 							<div class="auth-form  ml-auto mr-auto no-float">
@@ -56,7 +97,8 @@
 											<h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
 										</div>	
 										<div class="form-wrap">
-											<form action="<?php echo base_url('login/login_type'); ?>" method="post">
+											<form id="login_dt">
+												<div class="error alert alert-danger">hello</div>
 												<div class="form-group">
 													<label class="control-label mb-10" for="exampleInputEmail_2">Login as</label>
 													<select class="form-control" name="login_type">
@@ -71,14 +113,11 @@
 												</div>
 												<div class="form-group">
 													<label class="pull-left control-label mb-10" for="exampleInputpwd_2">Password</label>
-													
 													<div class="clearfix"></div>
 													<input type="password" name="password" class="form-control" required placeholder="Enter password">
 												</div>
-												
-											
 												<div class="form-group text-center">
-													<button type="submit" class="btn btn-info btn-rounded">sign in</button>
+													<input type="submit" class="btn btn-info btn-rounded login_btn" name="signin" value="Sign in">
 												</div>
 											</form>
 										</div>
@@ -87,6 +126,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<!-- /Row -->	
 				</div>
 				
@@ -99,7 +139,7 @@
 		<!-- JavaScript -->
 		
 		<!-- jQuery -->
-		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>
+		
 		
 		<!-- Bootstrap Core JavaScript -->
 		<script src="<?php echo base_url('include/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>

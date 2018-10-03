@@ -51,7 +51,7 @@
 													<td><?php echo $view_cust_dt['plan_emi_period']; ?> </td>	
 													<td><?php echo $view_cust_dt['WALLET_TRANSACTION_TIME']; ?> </td>
 													<td><?php echo $view_cust_dt['first']." ".$view_cust_dt['middle']." ".$view_cust_dt['last']." "; ?> </td>	
-													<td><button onclick='print_this("<?php echo $view_cust_dt['WALLET_ID']; ?>")' type='button' class='btn btn-sm btn-info'>Print</button></td>	
+													<td><a href="<?php echo base_url(); ?>admin/customer/invoice_details_customer/<?php echo $view_cust_dt['WALLET_ID']; ?>" class='btn btn-sm btn-info'>Print</a></td>	
 												<?php } } ?>
 											</tbody>
 											<tfoot>
@@ -67,9 +67,4 @@
 		</div>
 	</div>
 </div>
-	<script type="text/javascript">
-		function print_this(data)
-		{
-			window.location='<?php echo base_url("admin/print_invoice/")?>'+data;
-		}
-	</script>
+	

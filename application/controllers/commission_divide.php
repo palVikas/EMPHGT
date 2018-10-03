@@ -49,7 +49,7 @@ class Commission_divide extends CI_Controller
 		$this->db->insert('wallet_balance',$details);
 	}
 
-	public function new_function()
+	public function comission_pay()
 	{
 		$member_id=$_SESSION['current_cust_id'];
 		$amt=(-1)*($_POST['amount']);
@@ -58,15 +58,15 @@ class Commission_divide extends CI_Controller
 		$invoice=$last_invoice_no+1;
 
 		$details=array
-				 (
-				 	'WALLET_AMOUNT'=>$amt,
-				 	'WALLET_TRANSACTION_METHOD'=>$_POST['type'],
-				 	'RECEIPT_NO'=>$receipt_no,
-				 	'HRM_ID'=>$_POST['hrm_id'],
-				 	'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
-				 	'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt,
-					'WALLET_TRANSACTION_TIME'=>$_POST['date']
-				 );
+		(
+			'WALLET_AMOUNT'=>$amt,
+			'WALLET_TRANSACTION_METHOD'=>$_POST['type'],
+			'RECEIPT_NO'=>$receipt_no,
+			'HRM_ID'=>$_POST['hrm_id'],
+			'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
+			'WALLET_REMARK'=>"Payment successfull of plan worth rupees ".$amt,
+			'WALLET_TRANSACTION_TIME'=>$_POST['date']
+		);
 		$this->db->insert('wallet_balance',$details);
 		$wallet_id=$this->db->insert_id();
 		
@@ -147,7 +147,7 @@ class Commission_divide extends CI_Controller
 									'PLAN_ACTIVATION_ID'=>$_POST['plan_act_id'],
 									'WALLET_REMARK'=>'Multi level commission',
 									'WALLET_TRANSACTION_TIME'=>$_POST['date']
-								);	
+			);	
 
 								
 			$this->db->insert('wallet_balance',$wallet_details);
@@ -156,8 +156,9 @@ class Commission_divide extends CI_Controller
 			$x2=$this->find_sponcer_id($x1);
 
 			$member_id=$sponcer_id;
+			
 
-			$sponcer_id=$this->find_sponcer_id($member_id);			
+			$sponcer_id=$this->find_sponcer_id($member_id);		
 		}
 		$rank_id=$this->find_rank_id($sponcer_id);
 		$commission_rate=$this->get_commission($plan_id,$rank_id);
@@ -175,8 +176,7 @@ class Commission_divide extends CI_Controller
 
 		$this->db->insert('wallet_balance',$wallet_details);
 
-		echo "<script>alert('PAYMENT RECEIVED')</script>";
-		/*window.location='../../Admin/print_invoice/".$wallet_id."'</script>";*/
+		echo "<script>alert('Customer payment received successfully!'); window.location='../admin/customer/invoice_details_customer/".$wallet_id."';</script>";
 	}
 
 	public function invoice_view()

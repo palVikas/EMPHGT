@@ -18,7 +18,7 @@
 						</div>
 						<!-- Row -->
 					<div class="row">
-						<form method="post" action="<?php echo base_url('admin/register_customer'); ?>" enctype="multipart/form-data">
+						<form id="add_customer">
 							<div class="col-sm-8">
 							<div class="panel panel-default card-view">
 								<div class="panel-heading">
@@ -27,6 +27,7 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
+								<div class="error alert alert-success">hello</div>
 								<div class="panel-wrapper collapse in">
 									<div class="panel-body">
 										<div class="form-wrap">
@@ -248,7 +249,7 @@
 												</div>	
 										
 												<div class="form-group mb-30">
-													<input class="btn btn-primary btn-md" type="submit" name="submit">
+													<input class="btn btn-primary btn-md add_customer" type="submit" name="submit">
 												</div>
 											
 										</div>
