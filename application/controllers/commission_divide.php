@@ -80,6 +80,8 @@ class Commission_divide extends CI_Controller
 		
 		$detail_hrm=get_hrm_full($_POST['hrm_id']);
 		$br_id=$detail_hrm[0]->BRANCH_ID;
+		$first_name=$detail_hrm[0]->HRM_FIRST_NAME;
+		$contact=$detail_hrm[0]->HRM_CONTACT;
 		if($_POST['type']==1){
 			$type="cash";
 			$crid=3;
@@ -108,8 +110,10 @@ class Commission_divide extends CI_Controller
 		$particular="being ".$type." paid to company for rs.".$amt." for ".$plan_name;
 		$dt=$_POST['date'];
 		$comp_id=1;
-		insert_record_transaction($drid,$crid,$br_id,$particular,$amt,$dt,$comp_id);
-		
+		$hrm_added_by_fr_record=$this->find_sponcer_id($member_id);
+		insert_record_transaction($drid,$crid,$br_id,$hrm_added_by_fr_record,$particular,$amt,$dt,$comp_id);
+		$message="Dear ".ucwords($first_name)." your amount for Rs. ".$amt." has been successfully received";
+		send_message($contact,$message);
 		
 		$plan_id=$this->db->select('HRM_ACCOUNT_TYPE')->from('hrm')->where('HRM_ID',$member_id)->get()->row()->HRM_ACCOUNT_TYPE;
 

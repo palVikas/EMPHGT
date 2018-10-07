@@ -36,6 +36,20 @@
 			.error{
 				display:none;
 			}
+			.click_up_down{
+				color: #fff;
+				background-color: #177ec1;
+				padding: 6px;
+				cursor:pointer;
+			}
+			.pd_left_0{
+				padding-left:0px;
+			}
+			#tbl tfoot{
+				font-weight: bold;
+				font-size: 20px;
+				color: #5f5e5e;
+			}
 		</style>
 		
 		<!-- Summernote css -->
@@ -59,8 +73,55 @@
 		var admin_loc='<?php echo base_url(); ?>'+'admin_ajax/';
 			
 			$(document).ready(function(){
-				
-				
+				$("body").on('click','.click_down',function(){
+					$(this).removeClass('click_down');
+					$(this).addClass('click_up');
+					$(this).removeClass('fa-plus');
+					$(this).addClass('fa-minus');
+					$('.nominee').slideDown();
+				});
+				$("body").on('click','.click_up',function(){
+					$(this).removeClass('click_up');
+					$(this).addClass('click_down');
+					$(this).removeClass('fa-minus');
+					$(this).addClass('fa-plus');
+					$('.nominee').slideUp();
+				});
+				//add New plan
+				$("#add_plan").on('click',function(){
+						var type=$('#select_plan_type').val();
+						var plan=$('#select_plan_name').val();
+						var amount=$('#select_plan_amount').val();
+						if (type == "" || plan == "" || amount == "") 
+						{
+							alert('Fill all Fields');
+						}
+						else
+						{
+							if (amount % 100 != 0) 
+							{
+								alert("Enter a number Which is Divisible by 100");
+							}
+							else
+							{
+								$.ajax({
+									url:admin_loc+'add_plan',
+									type:"post",
+									data:{amount:amount,type:type,plan:plan},
+									success:function(result)
+									{									
+										alert(result);
+										$('#plan_add').modal('hide');
+										
+									},
+									error:function()
+									{
+										alert('error');
+									}
+								});
+							}
+						}						
+				});
 				$("#add_branch").on('submit', function(e){
 					e.preventDefault();
 					$.ajax({
@@ -95,6 +156,7 @@
 						}
 					});
 				});
+
 				$("#update_branch").on('submit', function(e){
 					e.preventDefault();
 					$.ajax({
@@ -129,6 +191,43 @@
 						}
 					});
 				});
+
+				$("#update_advisor").on('submit', function(e){
+					e.preventDefault();
+					$.ajax({
+						type: 'POST',
+						url: admin_loc+'update_advisor',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function(){
+							$('.update_advisor').attr("disabled","disabled");
+							
+						},
+						success: function(msg)
+						{
+							msg=$.trim(msg);
+							if(msg == 'err')
+							{									
+								$('.error').show();
+								$('.error').html('Advisor detail updated successfully!');
+								$('.error').focus();
+								$('.error').delay(3000).fadeOut();
+								$(".update_advisor").attr("disabled",false);
+							}
+							else
+							{
+								$('.error').show();
+								$('.error').html('Something wents wrong!');
+								$('.error').focus();
+								$('.error').delay(3000).fadeOut();
+								$(".update_advisor").attr("disabled",false);
+							}						
+						}
+					});
+				});
+
 				$("#add_advisor").on('submit', function(e){
 					e.preventDefault();
 					$.ajax({
@@ -225,7 +324,7 @@
 						<div class="logo-wrap">
 							<a href="index-2.html">
 								<img class="brand-img" src="<?php echo base_url('include/img/logo.png'); ?>" alt="brand"/>
-								<span class="brand-text">ADMIN</span>
+								<span class="brand-text">AGROPRODUCER</span>
 							</a>
 						</div>
 					</div>	
@@ -285,20 +384,18 @@
 						<i class="zmdi zmdi-more"></i>
 					</li>
 					<li>
-						<a class="<?php if($this->uri->segment(2)=="dashboard") echo "active"; ?> dashboard" href="<?php echo base_url(); ?>admin/dashboard""><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						<a class="<?php if($this->uri->segment(2)=="dashboard") echo "active"; ?>" href="<?php echo base_url(); ?>admin/dashboard"><div class="pull-left"><i class="fa fa-list mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>
 					<li>
 						
-						<a class="<?php if($this->uri->segment(2)=="branch") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/branch"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						<a class="<?php if($this->uri->segment(2)=="branch") echo "active"; ?>" href="<?php echo base_url(); ?>admin/branch"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Branch</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>
 					<li>
-						<a class="<?php if($this->uri->segment(2)=="advisor") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/advisor"><div class="pull-left"><i class="fas fa-chart-line mr-20"></i><span class="right-nav-text">Advisor</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
+						<a class="<?php if($this->uri->segment(2)=="advisor") echo "active"; ?>" href="<?php echo base_url(); ?>admin/advisor"><div class="pull-left"><i class="fa fa-hand-o-right mr-20"></i><span class="right-nav-text">Advisor</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 						
 					</li>
-
 					<li>
-						<a class="<?php if($this->uri->segment(2)=="customer") echo "active"; ?> branch" href="<?php echo base_url(); ?>admin/customer"><div class="pull-left"><i class="fas fa-user-plus mr-20"></i><span class="right-nav-text">Customer</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
-						
+						<a class="<?php if($this->uri->segment(2)=="customer") echo "active"; ?>" href="<?php echo base_url(); ?>admin/customer"><div class="pull-left"><i class="fas fa-user-plus mr-20"></i><span class="right-nav-text">Customer</span></div><div class="pull-right"><span class="label label-warning"></span></div><div class="clearfix"></div></a>
 					</li>			
 				</ul>
 			</div>

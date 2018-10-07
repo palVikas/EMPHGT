@@ -72,6 +72,7 @@ class Admin_ajax extends CI_Controller
 		if($type==1){
 			$type_paid="cash";
 			$crid=3;
+			$get_paid_type=$crid;
 			$ledger_dt=get_ledger_dt_by_id(3);
 			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
 			$updated_amt_comp=$com_ldger_amt+$amount;
@@ -80,6 +81,7 @@ class Admin_ajax extends CI_Controller
 		else if($type==2){
 			$type_paid="cheque";
 			$crid=6;
+			$get_paid_type=$crid;
 			$ledger_dt=get_ledger_dt_by_id(6);
 			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
 			$updated_amt_comp=$com_ldger_amt+$amount;
@@ -87,6 +89,7 @@ class Admin_ajax extends CI_Controller
 		}else{
 			$type_paid="Demand draft";
 			$crid=7;
+			$get_paid_type=$crid;
 			$ledger_dt=get_ledger_dt_by_id(7);
 			$com_ldger_amt=$ledger_dt[0]->AMOUNT;
 			$updated_amt_comp=$com_ldger_amt+$amount;
@@ -96,13 +99,13 @@ class Admin_ajax extends CI_Controller
 		$ledger_dt_comission=$ledger_dt_comission[0]->AMOUNT;
 		$comission_company_paid=$ledger_dt_comission+((-1)*$amount);
 		update_amount_ledger(9,$comission_company_paid);
-		/*entry for cash to comission */
+		/*entry company to comission */
 		$drid=9;
 		$hrm_details=get_hrm_full($hrm_id);
 		$br_id=$hrm_details[0]->BRANCH_ID;
 		$particular="being comission paid by ".$type_paid." for rs.".$comission_company_paid;
 		$comp_id=1;
-		insert_record_transaction($drid,$crid,$br_id,$particular,$comission_company_paid,$date,$comp_id);
+		insert_record_transaction($drid,$crid,$br_id,$hrm_id,$particular,$comission_company_paid,$date,$comp_id);
 		
 		/*record for comission to agent */
 		$ledger_dt_advisor_full=get_ledger_name("advisor_".$hrm_id);
@@ -112,14 +115,152 @@ class Admin_ajax extends CI_Controller
 		/*update amount for advisor comission */
 		update_amount_ledger($ledger_advisor_id,$amount_for_advisor);
 		/*update amount for comission company */
-		$comission_company_rem=$comission_company_paid-$amount_for_advisor;
+		$comission_company_rem=0;
 		update_amount_ledger(9,$comission_company_rem);
 		$crid=9;
 		$drid=$ledger_advisor_id;
 		$name_hrm=$hrm_details[0]->HRM_FIRST_NAME." ".$hrm_details[0]->HRM_MIDDLE_NAME." ".$hrm_details[0]->HRM_LAST_NAME;
+		$contact=$hrm_details[0]->HRM_CONTACT;
 		$particular="being comission paid to ".$name_hrm." for rs.".$comission_company_paid;
-		insert_record_transaction($drid,$crid,$br_id,$particular,$comission_company_paid,$date,$comp_id);
+		insert_record_transaction($drid,$crid,$br_id,$hrm_id,$particular,$comission_company_paid,$date,$comp_id);
+		$message="Dear ".ucwords($hrm_details[0]->HRM_FIRST_NAME)." your comission amount for Rs. ".$comission_company_paid." has been successfully delivered";
+		send_message($contact,$message);
+		
+		/*code for updating the values for parent hrms */
+		$all_plan_act_id=$this->db->query("select * from wallet_balance where HRM_ID='".$hrm_id."'");
+		$all_plan_act_id=$all_plan_act_id->result();
+		$all_plan_array=array();
+		foreach($all_plan_act_id as $all_plan){
+			$all_plan_array[]=$all_plan->PLAN_ACTIVATION_ID;
+		}
+		$all_plan_array=array_unique($all_plan_array);
+		//print_r($all_plan_array);
+		$check=0;
+		$x=0;
+		$all_hrm=array();
+		while($x!=1){
+			if($check==0){
+				$id=find_parent_hrms($hrm_id);
+			}else{
+				$id=find_parent_hrms($id);
+			}
+			$check=1;
+			$all_hrm[]=$id;
+			if($id==1){
+				$x=1;
+			}
+		}
+		$big_array=array();
+		foreach($all_plan_array as $plan_act){
+			foreach($all_hrm as $hrms){
+				$small_array=array();
+				$particular_hrm_amount=$this->db->query("select * from wallet_balance where HRM_ID='".$hrms."' and PLAN_ACTIVATION_ID='".$plan_act."'");
+				$particular_hrm_amount=$particular_hrm_amount->result();
+				$sum=0;
+				foreach($particular_hrm_amount as $amounts){
+					$sum+=$amounts->WALLET_AMOUNT;
+				}
+				$small_array['id']=$hrms;
+				$small_array['amount']=$sum;
+				array_push($big_array,$small_array);
+			}
+		}
+	
+		$check_array=array();
+		$main_last_array=array();
+		foreach($big_array as $count){
+			
+			if(in_array($count['id'],$check_array)){
+				$amt=$this->get_value_by_key_array($main_last_array,$count['id']);
+				$total_amt=$count['amount']+$amt;
+				$key_no=$this->get_key_array($main_last_array,$count['id']);
+				$main_last_array[$key_no]['amount']=$total_amt;
+				
+			}else{
+				$sm_array=array();
+				$check_array[]=$count['id'];
+				$sm_array['id']=$count['id'];
+				$sm_array['amount']=$count['amount'];
+				array_push($main_last_array,$sm_array);
+			}
+		}
+		
+		/* getting previous paid values for particular agent */
+		unset($big_array); 
+		$big_array = array(); 
+		unset($small_array); 
+		foreach($all_hrm as $hrms){
+			$small_array=array();
+			$lder_dt=get_ledger_name("advisor_".$hrms);
+			$particular_hrm_amount=$this->db->query("select * from accounts where HRM_ID='".$hrm_id."' and DR_ID='".$lder_dt[0]->ID."'");
+			$particular_hrm_amount=$particular_hrm_amount->result();
+			$sum=0;
+			foreach($particular_hrm_amount as $amounts){
+				$sum+=$amounts->AMOUNT;
+			}
+			$small_array['id']=$hrms;
+			$small_array['amount']=$sum;
+			array_push($big_array,$small_array);
+		}
+		
+		$last_array_final=array();
+		foreach($main_last_array as $arr){
+			$last_min_array=array();
+			$amount1=$this->get_value_by_key_array($main_last_array,$arr['id']);
+			$amount2=$this->get_value_by_key_array($big_array,$arr['id']);
+			$net_amount=$amount1-$amount2;
+			$last_min_array['id']=$arr['id'];
+			$last_min_array['amount']=$net_amount;
+			array_push($last_array_final,$last_min_array);
+		}
+		/* to update ledger values */
+		$amt_given=0;
+		foreach($last_array_final as $last){
+			$lder_dt=get_ledger_name("advisor_".$last['id']);
+			$prev_amt=$lder_dt[0]->AMOUNT;
+			$id=$lder_dt[0]->ID;
+			$tot_amt=$prev_amt+$last['amount'];
+			update_amount_ledger($id,$tot_amt);
+			$amt_given+=$last['amount'];
+			
+			$crid=$get_paid_type;
+			$drid=9;
+			$hrm_details=get_hrm_full($last['id']);
+			$br_id=$hrm_details[0]->BRANCH_ID;
+			$particular="being comission paid by ".$type_paid." for rs.".$last['amount'];
+			$comp_id=1;
+			insert_record_transaction($drid,$crid,$br_id,$hrm_id,$particular,$last['amount'],$date,$comp_id);
+			$name_hrm=$hrm_details[0]->HRM_FIRST_NAME." ".$hrm_details[0]->HRM_MIDDLE_NAME." ".$hrm_details[0]->HRM_LAST_NAME;
+			$particular="being comission paid to ".$name_hrm." for rs.".$last['amount'];
+			insert_record_transaction($id,9,$br_id,$hrm_id,$particular,$last['amount'],$date,$comp_id);
+			$contact=$hrm_details[0]->HRM_CONTACT;
+			$message="Dear ".ucwords($hrm_details[0]->HRM_FIRST_NAME)." your comission amount for Rs. ".$last['amount']." has been successfully delivered";
+			send_message($contact,$message);
+			
+		}
+		$ledger_dt=get_ledger_dt_by_id($get_paid_type);
+		$com_ldger_amt=$ledger_dt[0]->AMOUNT;
+		$updated_amt_comp=$com_ldger_amt-$amt_given;
+		update_amount_ledger($get_paid_type,$updated_amt_comp);
+			
 		echo "err";
+	}
+	
+	public function get_value_by_key_array($main_last_array,$count_id){
+			foreach($main_last_array as $val){
+				if($val['id']==$count_id){
+					return $val['amount'];
+					break;
+				}
+			}
+	}
+	public function get_key_array($main_last_array,$count_id){
+			foreach($main_last_array as $key=>$val){
+				if($val['id']==$count_id){
+					return $key;
+					break;
+				}
+			}
 	}
 	public function register_branch()
 	{
@@ -173,6 +314,34 @@ class Admin_ajax extends CI_Controller
 		$this->db->update('branch',$details);
 		echo "err";
 	}
+
+	public function update_advisor()
+	{
+		
+		$details=array
+					(
+						'RANK_ID'=>$_POST['rank'],
+						'HRM_TITLE'=>$_POST['title'],
+						'HRM_FIRST_NAME'=>$_POST['fname'],
+						'HRM_MIDDLE_NAME'=>$_POST['mname'],
+						'HRM_LAST_NAME'=>$_POST['lname'],
+						'HRM_PROFESSION_ID'=>$_POST['profession'],
+						'HRM_ADDRESS'=>$_POST['address'],
+						'HRM_CITY'=>$_POST['city'],
+						'HRM_STATE'=>$_POST['city'],
+						'HRM_COUNTRY'=>$_POST['city'],						
+						'HRM_NATIONALITY'=>$_POST['nation'],
+						'HRM_CONTACT'=>$_POST['cont'],
+						'HRM_ALT_CONTACT'=>$_POST['alt_cont'],
+						'HRM_EMAIL'=>$_POST['email'],
+						'HRM_PAN'=>$_POST['pan'],
+						'HRM_ADHAAR'=>$_POST['aadhar'],
+						'HRM_GST'=>$_POST['gst']
+					);
+		$this->db->where('HRM_ID',$_POST['hrm_id']);	
+		$this->db->update('hrm',$details);
+		echo "err";
+	}
 	
 	public function register_advisor()
 	{
@@ -192,7 +361,7 @@ class Admin_ajax extends CI_Controller
 			(
 				'HRM_TYPE_ID'=>1,
 				'RANK_ID'=>$_POST['rank'],
-				'HRM_TITLE'=>$_POST['title'],
+				'HRM_TITLE'=>strtoupper($_POST['title']),
 				'HRM_FIRST_NAME'=>strtoupper($_POST['fname']),
 				'HRM_MIDDLE_NAME'=>strtoupper($_POST['mname']),
 				'HRM_LAST_NAME'=>strtoupper($_POST['lname']),
@@ -248,6 +417,8 @@ class Admin_ajax extends CI_Controller
 							'AMOUNT'=>'0'
 						);
 			$this->db->insert('accounting_ledgers',$account_ledger);
+			$message="Welcome ".ucwords($_POST['fname'])." you are successfully registered as a advisor of Emperial Height";
+			send_message($_POST['cont'],$message);
 		echo 'err';
 	}
 	public function register_customer()
@@ -273,7 +444,7 @@ class Admin_ajax extends CI_Controller
 			(
 				'HRM_TYPE_ID'=>4,
 				'RANK_ID'=>0,
-				'HRM_TITLE'=>$_POST['title'],
+				'HRM_TITLE'=>strtoupper($_POST['title']),
 				'HRM_FIRST_NAME'=>strtoupper($_POST['fname']),
 				'HRM_MIDDLE_NAME'=>strtoupper($_POST['mname']),
 				'HRM_LAST_NAME'=>strtoupper($_POST['lname']),
@@ -374,7 +545,9 @@ class Admin_ajax extends CI_Controller
 		$amt=$get_plan_amount+$_POST['plan_amount'];
 		update_amount_ledger(8,$amt);	
 		$comp_id=1;
-		insert_record_transaction($drid,$crid,$br_id,$particular,$_POST['plan_amount'],$_POST['reg_date'],$comp_id);
+		insert_record_transaction($drid,$crid,$br_id,$_POST['added_by'],$particular,$_POST['plan_amount'],$_POST['reg_date'],$comp_id);
+		$message="Welcome ".ucwords($_POST['fname'])." you are successfully registered as a customer of Emperial Height";
+		send_message($_POST['cont'],$message);
 		
 		echo "err";
 	}
@@ -435,5 +608,31 @@ class Admin_ajax extends CI_Controller
 									  }
 									  // echo $this->datatables->last_query();exit;
 		echo $this->datatables->generate();
+	}
+	public function add_plan()
+	{
+		$plan=$_POST['plan'];
+		$amount=$_POST['amount'];
+		$type=$_POST['type'];
+
+		$period=$this->db->select('PLAN_EMI_PERIOD')->from('plan_emi')->where('PLAN_ID',$plan)->get()->row()->PLAN_EMI_PERIOD;
+		$avl=$this->db->select('*')->from('plan_emi')->where('PLAN_EMI_PERIOD',$period)->where('PLAN_EMI_AMOUNT',$amount)->where('PLAN_ID',$plan)->get()->row();
+		if($avl == "")
+		{
+			$plan=array
+			(
+				'PLAN_ID'=>$plan,
+				'PLAN_EMI_AMOUNT'=>$amount,
+				'PLAN_EMI_PERIOD'=>$period,
+				'PLAN_BONUS_ID'=>1
+			);
+
+			$this->db->insert('plan_emi',$plan);
+			echo "Plan Added successfully";
+		}
+		else
+		{
+			echo "Plan Already Available";
+		}
 	}
 }

@@ -89,6 +89,16 @@ class Admin_model extends CI_Model {
 		$branch = $this->db->query("select * from branch where BRANCH_ID='".$id."'");
 		return $branch=$branch->result();
 	}
+	public function get_unique_advisor($id){
+		$advisor = $this->db->query("select * from hrm where HRM_ID='".$id."'");
+		return $advisor=$advisor->result();
+	}
+	public function get_advisor_details($id)
+	{
+		$query=$this->db->query('Select * from hrm where HRM_ID="'.$id.'"');
+		return $query=$query->result();
+
+	}
 	public function print_invoice($id)
 	{
 		$data=$this->db->select('*')->from('wallet_balance')

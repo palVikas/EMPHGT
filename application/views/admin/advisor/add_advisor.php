@@ -219,11 +219,16 @@
 
 												<div class="form-body">
 													<br><br>
-													<h6 class="txt-dark capitalize-font">Nominee details</h6>
+													<div class="col-md-6 pd_left_0">
+														<h6 class="txt-dark capitalize-font">Nominee details</h6>
+													</div>
+													<div class="col-md-6">
+														<div class="text-right"><i class="fa fa-plus click_up_down click_down"></i></div>
+													</div>
 													<hr class="light-gray-hr">
 												</div>
 
-
+											<div class="nominee" style="display:none;">
 												<div class="row">
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
@@ -279,7 +284,7 @@
 														<input type="text" class="form-control" name="nom_relation">
 													</div>
 												</div>
-
+											</div>
 
 												<div class="form-body">
 													<br><br>

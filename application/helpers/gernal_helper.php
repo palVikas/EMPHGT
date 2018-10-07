@@ -64,7 +64,7 @@
 		return true;
 	}
 	
-	function insert_record_transaction($drid,$crid,$br_id,$particular,$amt,$dt,$comp_id){
+	function insert_record_transaction($drid,$crid,$br_id,$hrm_id,$particular,$amt,$dt,$comp_id){
 		 $CI =& get_instance();
 		$CI->load->database();
 		$details=array
@@ -72,6 +72,7 @@
 				 	'DR_ID'=>$drid,
 				 	'CR_ID'=>$crid,
 				 	'BRANCH_ID'=>$br_id,
+					'HRM_ID'=>$hrm_id,
 				 	'PARTICULAR'=>$particular,
 				 	'AMOUNT'=>$amt,
 				 	'DATE'=>$dt,
@@ -106,4 +107,38 @@
 	 		$z=$z."0";
 	 	}
 	 	return $prefix.$rank.$z.$num;
+	}
+	function find_parent_hrms($hrm_id){
+		 $CI =& get_instance();
+		$CI->load->database();
+		$sponcer_id=$CI->db->select('HRM_ADDED_BY')->from('hrm_relation')->where('NEW_HRM_ID',$hrm_id)->get()->row()->HRM_ADDED_BY;
+	
+		return  $sponcer_id;
+	}
+	function send_message($mobile,$message){
+		$sender="WEBSMS";
+		$username='rohit123456';
+		$password='dcntv.16';
+
+		$username=urlencode($username);
+		$password=urlencode($password);
+		$sender=urlencode($sender);
+		$message=urlencode($message);
+
+		$parameters="username=".$username."&password=".$password."&mobile=".$mobile."&sendername=".$sender."&message=".$message;
+
+		$url="http://priority.muzztech.in/sms_api/sendsms.php";
+
+		$ch = curl_init($url);
+
+		$get_url=$url."?".$parameters;
+
+		curl_setopt($ch, CURLOPT_POST,0);
+		curl_setopt($ch, CURLOPT_URL, $get_url);
+
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1); 
+		curl_setopt($ch, CURLOPT_HEADER,0);  // DO NOT RETURN HTTP HEADERS 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);  // RETURN THE CONTENTS OF THE CALL
+		$return_val = curl_exec($ch);
+
 	}

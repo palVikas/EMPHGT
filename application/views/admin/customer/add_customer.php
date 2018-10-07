@@ -1,3 +1,60 @@
+<script type="text/javascript">
+	
+					
+
+</script>
+<!-- Modal -->
+<div class="modal fade" id="plan_add" role="dialog">
+	<div class="modal-dialog">     
+	    <!-- Modal content-->
+	    <div class="modal-content">
+		    <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal">&times;</button>
+			    <h4 class="modal-title">Add New plan</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6">
+						<label class="control-label mb-10 text-left">Select Plan Type</label>
+						<select name='select_plan_type' id='select_plan_type' class="form-control ">
+							<option value="">--Select plan type--</option>
+							<?php 															
+								$q=$this->db->select("*")->from('plan_type')->where('PLAN_TYPE_ID !=',4)->get()->result();
+								foreach ($q as $row) 
+								{
+									echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
+								}
+							?>
+						</select>				
+					</div>
+					<div class="col-md-6">
+						<label class="control-label mb-10 text-left">Select Plan Name</label>
+						<select name='select_plan_name' id='select_plan_name' class="form-control ">
+							<option value="">--Select Plan name--</option>
+						</select>				
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<label class="control-label mb-10 text-left">Amount(Divisible by 100)</label>
+						<input type="number" class="form-control" id="select_plan_amount">
+						<p id="error_100"></p>				
+					</div>
+					<div class="col-md-6">
+						
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-info" id="add_plan">Add</button>
+			    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>      
+	</div>
+</div>
+
+
+
 				<div class="page-wrapper">
 					<div class="container-fluid">
 						
@@ -9,7 +66,7 @@
 							<!-- Breadcrumb -->
 							<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 							  <ol class="breadcrumb">
-								<li><a href="index-2.html">Admin</a></li>
+								<li><a href="javascript:void(0)">Admin</a></li>
 								<li><a href="#"><span>Dashboard</span></a></li>
 								<li class="active"><span>Add customer</span></li>
 							  </ol>
@@ -35,7 +92,7 @@
 												<div class="row">												
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
-														<select name="title" id="" class='form-control' name="title">
+														<select name="title" id="" class='form-control ' name="title">
 														<option value="Mr.">Mr.</option>
 														<option value="Mrs.">Mrs.</option>
 														<option value="Ms.">Ms.</option>
@@ -43,22 +100,22 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">First name</label>
-														<input type="text" class="form-control" name="fname" required>
+														<input type="text" class='form-control ' name="fname" required>
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">middle name</label>
-														<input type="text" class="form-control" name="mname">
+														<input type="text" class='form-control ' name="mname">
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">last name</label>
-														<input type="text" class="form-control" name="lname">
+														<input type="text" class='form-control ' name="lname">
 													</div>													
 												</div>
 
 												<div class="row">
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">Sex</label>
-														<select name="sex" class="form-control" required>
+														<select name="sex" class='form-control ' required>
 															<option value="">--Select gender--</option>
 															<option value="m">MALE</option>
 															<option value="f">FEMALE</option>
@@ -66,7 +123,7 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select name="profession" class="form-control js-example-basic-single" required>
+														<select name="profession" class="form-control  js-example-basic-single" required>
 															<option value="">--select profession--</option>
 															<?php 
 																$q=$this->db->select("*")->from('profession')->get()->result();
@@ -79,7 +136,7 @@
 													</div>													
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">Credit limit</label>
-														<input type="number" class="form-control" name="credit_lim" oninput="number(this)" maxlength="7">
+														<input type="number" class='form-control ' name="credit_lim" oninput="number(this)" maxlength="7">
 													</div>		
 												</div>
 
@@ -87,48 +144,48 @@
 												<div class="row">
 													<div class="form-group col-md-9 col-sm-9">
 														<label class="control-label mb-10 text-left">Address</label>
-														<input type="text" class="form-control" name="address" required maxlength="250">
+														<input type="text" class='form-control ' name="address" required maxlength="250">
 													</div>	
 													<div class="form-group col-md-3">
 														<label class="control-label mb-10 text-left">Nationality</label>
-														<input type="text" class="form-control" name="nation" required>
+														<input type="text" class='form-control ' name="nation" required>
 													</div>												
 												</div>
 
 												<div class="row">
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Pan no.</label>
-														<input type="number" oninput="number(this)" maxlength="12" class="form-control" name="pan">
+														<input type="number" oninput="number(this)" maxlength="12" class='form-control ' name="pan">
 													</div>	
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Aadhar</label>
-														<input type="number" oninput="number(this)" maxlength="12" class="form-control" name="aadhar" required>
+														<input type="number" oninput="number(this)" maxlength="12" class='form-control ' name="aadhar" required>
 													</div>	
 													<div class="form-group col-md-4 col-sm-12">
 														<label class="control-label mb-10 text-left">GST no.</label>
-														<input type="number" oninput="number(this)" maxlength="12" class="form-control" name="gst">
+														<input type="number" oninput="number(this)" maxlength="12" class='form-control ' name="gst">
 													</div>
 												</div>								
 
 												<div class="row">													
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Contact no.</label>
-														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="cont">
+														<input type="number" maxlength="11" oninput="number(this)" class='form-control ' name="cont">
 													</div>	
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Alt contact no.</label>
-														<input type="number" maxlength="11" oninput="number(this)" class="form-control" name="alt_cont">
+														<input type="number" maxlength="11" oninput="number(this)" class='form-control ' name="alt_cont">
 													</div>	
 													<div class="form-group col-md-4">
 														<label class="control-label mb-10 text-left">Email</label>
-														<input type="email" class="form-control" name="email" required>
+														<input type="email" class='form-control ' name="email" required>
 													</div>
 												</div>	
 
 												<div class="row">
 													<div class="form-group col-md-6 col-sm-6">
 														<label class="control-label mb-10 text-left">City</label>
-														<select name="city" class="form-control js-example-basic-single" required>
+														<select name="city" class="form-control  js-example-basic-single" required>
 															<option value="">--select City--</option>
 															<?php 
 																$q=$this->db->select("*")->from('cities')->get()->result();
@@ -141,7 +198,7 @@
 													</div>
 													<div class="form-group col-md-6">
 														<label class="control-label mb-10 text-left">Registration date</label>
-														<input type="DATE" id="reg_date" class="form-control" name="reg_date" required>
+														<input type="DATE" id="reg_date" class='form-control ' name="reg_date" required>
 													</div>											
 												</div>												
 
@@ -154,7 +211,7 @@
 												<div class="row">
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Added by</label>
-														<select name="added_by" class="form-control js-example-basic-single" required id="added_by">
+														<select name="added_by" class="form-control  js-example-basic-single" required id="added_by">
 															<option value="">--Added by--</option>
 															<?php 
 															$q=$this->db->select("*")->from('hrm')->where('HRM_TYPE_ID',1)->get()->result();
@@ -175,7 +232,7 @@
 													</div>		
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Branch </label>
-														<select name="branch" class="form-control js-example-basic-single" required>
+														<select name="branch" class="form-control  js-example-basic-single" required>
 															<option value="">--select Branch--</option>
 															<?php 
 															$q=$this->db->select("*")->from('branch')->get()->result();
@@ -189,15 +246,19 @@
 												</div>	
 
 												<div class="form-body">
-													<br><br>
-													<h6 class="txt-dark capitalize-font">Nominee details</h6>
+													<div class="col-md-6 pd_left_0">
+														<h6 class="txt-dark capitalize-font"><a href="javascript:void(0);">Nominee details</a></h6>
+													</div>
+													<div class="col-md-6">
+														<div class="text-right"><i class="fa fa-plus click_up_down click_down"></i></div>
+													</div>
 													<hr class="light-gray-hr">
 												</div>
-
+												<div class="nominee" style="display:none;">
 												<div class="row">
 													<div class="form-group col-md-2">
 														<label class="control-label mb-10 text-left">Title</label>
-														<select id="" class='form-control' name="nom_title">
+														<select id="" class='form-control ' name="nom_title">
 														<option value="mr.">Mr.</option>
 														<option value="mrs.">Mrs.</option>
 														<option value="ms.">Ms.</option>
@@ -205,30 +266,30 @@
 													</div>
 													<div class="form-group col-md-4 col-sm-4">
 														<label class="control-label mb-10 text-left">First name</label>
-														<input type="text" class="form-control" name="nom_fname">
+														<input type="text" class='form-control ' name="nom_fname">
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">middle name</label>
-														<input type="text" class="form-control" name="nom_mname">
+														<input type="text" class='form-control ' name="nom_mname">
 													</div>
 													<div class="form-group col-md-3 col-sm-4">
 														<label class="control-label mb-10 text-left">last name</label>
-														<input type="text" class="form-control" name="nom_lname">
+														<input type="text" class='form-control ' name="nom_lname">
 													</div>
 												</div>		
 
 												<div class="row">														
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Aadhar</label>
-														<input type="number" class="form-control" name="nom_aadhar" oninput="number(this)" maxlength="12">
+														<input type="number" class='form-control ' name="nom_aadhar" oninput="number(this)" maxlength="12">
 													</div>	
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Relation with customer</label>
-														<input type="text" class="form-control" name="nom_relation">
+														<input type="text" class='form-control ' name="nom_relation">
 													</div>
 													<div class="form-group col-md-4 col-sm-6">
 														<label class="control-label mb-10 text-left">Profession</label>
-														<select class="form-control js-example-basic-single" name="nom_profession" required>
+														<select class="form-control  js-example-basic-single" name="nom_profession">
 															<option value="">--select profession--</option>
 															<?php 
 																$q=$this->db->select("*")->from('profession')->get()->result();
@@ -244,10 +305,10 @@
 												<div class="row">
 													<div class="form-group col-md-12 col-sm-6">
 														<label class="control-label mb-10 text-left">Address</label>
-														<input type="text" class="form-control" name="nom_address" id="nom" required>
+														<input type="text" class='form-control ' name="nom_address" id="nom">
 													</div>	
 												</div>	
-										
+												</div>
 												<div class="form-group mb-30">
 													<input class="btn btn-primary btn-md add_customer" type="submit" name="submit">
 												</div>
@@ -260,57 +321,55 @@
 						<div class="col-md-4">
 							<div class="panel panel-default card-view">
 								<div class="panel-wrapper collapse in">
-									<div class="panel-title align-center">Plan Selecter</div>
+									<div class="panel-title align-center" style="float:left">Plan Selecter</div>
+									<div class="panel-title align-center" style="float:right"><a href="#" data-toggle="modal" data-target="#plan_add"><i class="fas fa-plus"></i>Add Plan</a></div><br><br>
 									<div class="panel-body">
-										<div class="form-wrap">												
-											
-												<div class="form-group">
-													<label>Plan Type</label>
-													<select class="form-control" name="ac_type" id="calc_plan_type" required>
-														<option value="">--Select plan type--</option>
-														<?php 															
-															$q=$this->db->select("*")->from('plan_type')
-															->where('PLAN_TYPE_ID !=',4)->get()->result();
-															foreach ($q as $row) 
-															{
-																echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
+										<div class="form-wrap">										
+											<div class="form-group">
+												<label>Plan Type</label>
+												<select class="form-control  js-example-basic-single" name="ac_type" id="calc_plan_type" required>
+													<option value="">--Select plan type--</option>
+													<?php 															
+														$q=$this->db->select("*")->from('plan_type')
+														            ->where('PLAN_TYPE_ID !=',4)->get()->result();
+														foreach ($q as $row) 
+														{
+															echo "<option value='".$row->PLAN_TYPE_ID."'>".$row->PLAN_NAME."</option>";
 
-
-															}
-														?>
-													</select>
-												</div>
-												<div class="form-group">
-													<label>Plan Name</label>
-													<select class="form-control" name="plan_name" id="calc_plan_name" required>
-														<option value="">--Select plan Name--</option>
-													</select>
-												</div>
-												<div class="form-group">
-													<label>Plan Amount</label>
-													<select class="form-control" name="plan_amount" id="calc_plan_amount" required>
-														<option value="">--Select Installment Amount --</option>
-													</select>
-												</div>
-												<div class="form-group">
-													<input type="hidden" class="form-control" name="plan_duration" id="calc_plan_duration">
-												</div>
-												<div class="form-group">
-													<button type="button" class="btn btn-sm btn-primary form-control" id="calculate" style="float:right">Calculate</button>
-												</div>		
-												<div class="form-group">
-													<label>Redemption Value</label>
-													<input type="text" class="form-control" id="redemption_value" readonly>
-												</div>
-												<div class="form-group">
-													<label>Loyelty Bonus</label>
-													<input type="text" class="form-control" id="loyelty_bonus" readonly>
-												</div>
-												<div class="form-group">
-													<label>Total Amount</label>
-													<input type="text" class="form-control" id="total_amount" readonly>
-												</div>										
-																						
+														}
+													?>
+												</select>
+											</div>
+											<div class="form-group">
+												<label>Plan Name</label>
+												<select class="form-control  js-example-basic-single" name="plan_name" id="calc_plan_name" required>
+													<option value="">--Select plan Name--</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label>Plan Amount</label>
+												<select class="form-control js-example-basic-single " name="plan_amount" id="calc_plan_amount" required>
+													<option value="">--Select Installment Amount --</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<input type="hidden" class='form-control ' name="plan_duration" id="calc_plan_duration">
+											</div>
+											<div class="form-group">
+												<button type="button" class="btn btn-sm btn-primary form-control" id="calculate" style="float:right">Calculate</button>
+											</div>		
+											<div class="form-group">
+												<label>Redemption Value</label>
+												<input type="text" class='form-control ' id="redemption_value" readonly>
+											</div>
+											<div class="form-group">
+												<label>Loyelty Bonus</label>
+												<input type="text" class='form-control ' id="loyelty_bonus" readonly>
+											</div>
+											<div class="form-group">
+												<label>Total Amount</label>
+												<input type="text" class='form-control ' id="total_amount" readonly>
+											</div>																			
 										</div>
 									</div>
 								</div>
@@ -324,6 +383,8 @@
 				</div>
 				<script type="text/javascript">
 
+					
+					
 					$(document).ready( function() 
 					{
 					    var date=new Date;
@@ -339,6 +400,7 @@
 
 						$('.js-example-basic-single').select2();
 					})
+
 
 					//select plan type for customer
 					$("#plan_type").on('change',function(){
@@ -521,6 +583,27 @@
 						}
 					})
 
+					//Get plans for add EMI
+					$("#select_plan_type").on('change',function(){						
+						$.ajax({
+							url:"<?php echo base_url('extra/check/get_plans'); ?>",
+							type:"post",
+							data:{data:this.value},
+							dataType:"json",
+							success:function(result)
+							{
+								$("#select_plan_name").html('<option value="">--Select Plan Name--</option>');
+								for(var i in result)
+								{
+									$('#select_plan_name').append('<option value="'+result[i]['PLAN_ID']+'">'+result[i]['PLAN_NAME']+'</option>')
+								}
+							}
+						});
+					});
+
+					
+
+					
 					function number(x)
 					{
 						if (x.value.length > x.maxLength) x.value = x.value.slice(0, x.maxLength);

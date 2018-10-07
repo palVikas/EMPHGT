@@ -1,5 +1,7 @@
+
 <script>
 $(document).ready(function() {
+	 $('#advisorlist').DataTable();
 	$('.payment_agent').click(function () {
 		var hrm_id=$(this).attr('attr-id-agent');
 		var rem_amount=$(this).attr('total_rem_amt');
@@ -32,7 +34,7 @@ $(document).ready(function() {
 					var hrm_id=$('#hrm_id1').val();
 					$('.tot_amt'+hrm_id).html('0');
 					$('.btn_pay'+hrm_id).attr('disabled',true);
-					$('.btn_pay'+hrm_id).html('No Amount To Pay');
+					$('.btn_pay'+hrm_id).html('No Comission');
 					
                 }else{
 					 $('.error').show();
@@ -50,7 +52,7 @@ $(document).ready(function() {
     });
 });
 </script>
-
+<?php send_message('9696006233','hey dheeraj'); ?>
 <div id="payment_agent_modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 	<!-- Modal content-->
@@ -141,7 +143,7 @@ $(document).ready(function() {
 							<div class="panel-body">
 								<div class="table-wrap">
 									<div class="table-responsive">
-										<table id="tbl" class="table table-hover display  pb-30" >
+										<table id="advisorlist" class="table table-hover display  pb-30" >
 											<thead>
 												<tr>
 													<th>Registration No</th>
@@ -197,10 +199,11 @@ $(document).ready(function() {
 															<?php if($total_calc!=0) { ?>
 															<button type="button" class="btn_pay<?php echo $hrm_id; ?> btn btn-primary payment_agent" attr-agent-name="<?php echo $full_nm; ?>" attr-id-agent="<?php echo $hrm_id; ?>" total_rem_amt="<?php echo $total_calc; ?>">Pay Comission</button>
 															<?php } else { ?>
-															<button type="button" class="btn_pay<?php echo $hrm_id; ?> btn btn-primary payment_agent" attr-agent-name="<?php echo $full_nm; ?>" attr-id-agent="<?php echo $hrm_id; ?>" total_rem_amt="<?php echo $total_calc; ?>" disabled>No Amount To Pay</button>
+															<button type="button" class="btn_pay<?php echo $hrm_id; ?> btn btn-primary payment_agent" attr-agent-name="<?php echo $full_nm; ?>" attr-id-agent="<?php echo $hrm_id; ?>" total_rem_amt="<?php echo $total_calc; ?>" disabled>No Comission</button>
 															<?php } ?>
 														</td>
 														<td><a href="<?php echo base_url(); ?>admin/advisor/view/<?php echo $list_advisor->HRM_ID; ?>" ><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+															<a href="<?php echo base_url(); ?>admin/advisor/details/<?php echo $list_advisor->HRM_ID; ?>" ><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;
 															<a href="<?php echo base_url(); ?>admin/advisor/edit/<?php echo $list_advisor->HRM_ID; ?>" ><i class="fa fa-edit"></i></a>
 														</td>
 													</tr>

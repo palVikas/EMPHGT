@@ -1,18 +1,4 @@
 <?php
-	// $cust_id=$_SESSION['current_cust_id'];
-	// $data1=$this->db->select('*')->from('hrm')
-	// 								  ->join('hrm_relation','hrm.HRM_ID=hrm_relation.HRM_ADDED_BY')
-	// 									->join('wallet_balance','wallet_balance.HRM_ID=hrm_relation.NEW_HRM_ID')
-	// 								  ->join('plan_activation','plan_activation.PLAN_ACTIVATION_ID=wallet_balance.PLAN_ACTIVATION_ID')
-	// 								  ->join('plan_emi','plan_emi.PLAN_EMI_ID=plan_activation.PLAN_EMI_ID')
-	// 								  ->join('plan','plan.PLAN_ID=plan_emi.PLAN_ID')
-	// 								  ->join('branch','branch.BRANCH_ID=hrm.BRANCH_ID')
-	// 								  ->join('plan_interest','plan_interest.PLAN_ID=plan.PLAN_ID')
-	// 								  ->where('wallet_balance.HRM_ID',$cust_id)
-	// 								  ->where('wallet_balance.WALLET_AMOUNT >',0)
-	// 								  ->get()->row();
-
-	// print_r($data);
 
 	$this->load->helper('gernal_helper');
 	$plan_interest_id=$this->db->select('PLAN_INTEREST_ID')->from('plan')->where('PLAN_ID',$data->PLAN_ID)->get()->row()->PLAN_INTEREST_ID;
@@ -63,70 +49,11 @@
 	}
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-	
-<!-- Mirrored from hencework.com/theme/doodle/full-width-light/invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 03 Jan 2018 11:16:43 GMT -->
-<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>PRINT BILL</title>
-		<meta name="description" content="Doodle is a Dashboard & Admin Site Responsive Template by hencework." />
-		<meta name="keywords" content="admin, admin dashboard, admin template, cms, crm, Doodle Admin, Doodleadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
-		<meta name="author" content="hencework"/>
-		<!-- jQuery -->
-		<script src="<?php echo base_url('include/vendors/bower_components/jquery/dist/jquery.min.js'); ?>"></script>   
-		
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-		<!--Datatables-->
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/> 
-		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
 
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta name="description" content="Doodle is a Dashboard & Admin Site Responsive Template by hencework." />
-		<meta name="keywords" content="admin, admin dashboard, admin template, cms, crm, Doodle Admin, Doodleadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
-		<meta name="author" content="hencework"/>
-		<!-- Favicon -->
-		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="icon" href="favicon.ico" type="image/x-icon">
-
-		<style type="text/css">
-			input[type=number]::-webkit-inner-spin-button,
-			input[type=number]::-webkit-outer-spin-button {
-				-webkit-appearance: none;
-				margin: 0;
-			}
-		</style>
-		
-		<!-- Summernote css -->
-		<link rel="stylesheet" href="<?php echo base_url('include/vendors/bower_components/summernote/dist/summernote.css'); ?>" />
-		
-		<!-- switchery CSS -->
-		<link rel="stylesheet" href="<?php echo base_url('include/vendors/bower_components/switchery/dist/switchery.min.css'); ?>" />
-	
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="<?php echo base_url('include/dist/css/style.css'); ?>" />
-
-		
-
-		<!-- Font awesome -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-		<!-- Jasny-bootstrap CSS -->
-		<link rel="stylesheet" href="<?php echo base_url('include/vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css'); ?>" />   </head>
-	<body>
-		<!--Preloader-->
-		<div class="preloader-it">
-			<div class="la-anim-1"></div>
-		</div>
-		<!--/Preloader-->
-		<div class="wrapper theme-1-active pimary-color-red">           
-			<!-- Main Content -->
-					<!-- Row -->
-					<div class="row">
+         <div class="page-wrapper">
+       		<div class="container-fluid">
+       			  		<div class="row">
 						<div class="col-md-12">
 							<div class="panel panel-default card-view">
 							<hr class="light-grey-hr mb-10">
@@ -179,80 +106,17 @@
 								</div>
 								<h5 class="panel-title txt-dark" style="float:right">For Empirial Height Agro Producer Company Ltd. </h5>
 							</div>
-							<!-- <div class="row">
-								<div class="col-md-8">
-									<div class="panel-heading">
-										<div class="pull-left">
-											<h5 >RECEIPT NO : <span>12345</span></h5>
-											<h6 class="panel-title txt-dark" >Installment No : <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Received With Thanks From Mr./Mrs. : <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Address : <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Agent Code: <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Policy No: <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Next Installment Date : <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Mode Of Payment: <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Rupees In Words: <span>12345</span></h6>
-											<h6 class="panel-title txt-dark" >Redemption Value: <span>12345</span></h6>
-										</div>
-										
-									</div>									
-								</div>
-								<div class="col-md-4">
-									<h6 class="panel-title txt-dark" >Date : <span>12345</span></h6>
-									<h6 class="panel-title txt-dark"></h6><br>
-									<h6 class="panel-title txt-dark" >Branch: <span>12345</span></h6>
-									<h6 class="panel-title txt-dark"></h6><br>
-									<h6 class="panel-title txt-dark" >Membership Code: <span>12345</span></h6>
-									<h6 class="panel-title txt-dark" >Installment Amount : <span>12345</span></h6>
-									<h6 class="panel-title txt-dark" >Penalty : <span>12345</span></h6>
-									<h6 class="panel-title txt-dark" >Total Payable Amount : <span>12345</span></h6>
-									<h6 class="panel-title txt-dark"></h6><br>
-									<h6 class="panel-title txt-dark"></h6><br>
-									<h6 class="panel-title txt-dark" >Redemption Date : <span>12345</span></h6>
-									
-								</div>
-							</div> -->
 						</div>
-					</div>
-					<!-- /Row -->
-				
-					
 				</div>
+       		</div>
+         </div>
+			<!-- Main Content -->
+					<!-- Row -->
 				
-				<!-- Footer -->
-			
-				<!-- /Footer -->
-				
-			</div>
-			<!-- /Main Content -->
-			
-		</div>
-		<!-- /#wrapper -->
-		
-		<!-- JavaScript -->
+					<!-- /Row -->
 		
 			
-		<!-- Bootstrap Core JavaScript -->
-		<script src="<?php echo base_url('include/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>
-		<script src="<?php echo base_url('include/vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js'); ?>"></script>      
-		
-		<!-- Slimscroll JavaScript -->
-		<script src="<?php echo base_url('include/dist/js/jquery.slimscroll.js'); ?>"></script>     
-		
-		<!-- Fancy Dropdown JS -->
-		<script src="<?php echo base_url('include/dist/js/dropdown-bootstrap-extended.js'); ?>"></script>       
 	
-		<!-- Slimscroll JavaScript -->
-		<script src="<?php echo base_url('include/dist/js/jquery.slimscroll.js'); ?>"></script>     
-		
-		<!-- Owl JavaScript -->
-		<script src="<?php echo base_url('include/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js'); ?>"></script>
-		
-		<!-- Switchery JavaScript -->
-		<script src="<?php echo base_url('include/vendors/bower_components/switchery/dist/switchery.min.js'); ?>"></script>     
-	
-		<!-- Init JavaScript -->
-		<script src="<?php echo base_url('include/dist/js/init.js'); ?>"></script>
 		
 	</body>
 

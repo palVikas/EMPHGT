@@ -36,7 +36,12 @@ class Admin extends CI_Controller
 			$this->load->view('admin/branch/edit_branch',$data);
 		}
 		else if($this->uri->segment(3)=="view"){
-			$this->load->view('admin/branch/view_branch');
+			$query=$this->admin_model->get_unique_branch($this->uri->segment(4));
+			if(!empty($query))
+			{
+				$data['branch_details']=$query;
+			}
+			$this->load->view('admin/branch/view_branch',$data);
 		}
 		else{
 			$query=$this->admin_model->get_all_branch();
@@ -52,24 +57,52 @@ class Admin extends CI_Controller
 	{
 		$data[]=array();
 		$this->load->view('admin/header');
-		if($this->uri->segment(3)=="view" ){
+		if($this->uri->segment(3)=="view" )
+		{
 			$query=$this->admin_model->get_unique_cust_hrm($this->uri->segment(4));
-			if(!empty($query)){
+			if(!empty($query))
+			{
 				$data['get_unique_customer_fr_advisor']=$query;
 			}
 			
 			$this->load->view('admin/advisor/view_customers',$data);
 			
-		}else if($this->uri->segment(3)=="add_advisor"){
+		}
+
+		else if($this->uri->segment(3)=="edit")
+		{
+			$query=$this->admin_model->get_unique_advisor($this->uri->segment(4));
+			if(!empty($query))
+			{
+				$data['unique_advisor']=$query;
+			}
+			$this->load->view('admin/advisor/edit_advisor',$data);
+		}
+
+		else if($this->uri->segment(3)=="details")
+		{
+			$query=$this->admin_model->get_advisor_details($this->uri->segment(4));
+			if(!empty($query))
+			{
+				$data['advisor_details']=$query;
+			}
+			$this->load->view('admin/advisor/advisor_details',$data);
+		}
+
+		else if($this->uri->segment(3)=="add_advisor")
+		{
 			$this->load->view('admin/advisor/add_advisor');	
 		}
-		else{
+
+		else
+		{
 			$query=$this->admin_model->get_all_advisor();
 			if(!empty($query)){
 				$data['get_list_advisor']=$query;
 			}
 			$this->load->view('admin/advisor/advisor_list',$data);
 		}
+
 		$this->load->view('admin/footer');
 	}
 	
