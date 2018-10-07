@@ -1,7 +1,7 @@
 
 <script>
 $(document).ready(function() {
-	 $('#advisorlist').DataTable();
+	
 	$('.payment_agent').click(function () {
 		var hrm_id=$(this).attr('attr-id-agent');
 		var rem_amount=$(this).attr('total_rem_amt');

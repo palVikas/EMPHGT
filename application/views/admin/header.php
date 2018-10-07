@@ -73,6 +73,8 @@
 		var admin_loc='<?php echo base_url(); ?>'+'admin_ajax/';
 			
 			$(document).ready(function(){
+				 $('#advisorlist').DataTable();
+				  $('#branchlist').DataTable();
 				$("body").on('click','.click_down',function(){
 					$(this).removeClass('click_down');
 					$(this).addClass('click_up');

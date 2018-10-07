@@ -22,7 +22,7 @@
 							<div class="panel-body">
 								<div class="table-wrap">
 									<div class="table-responsive">
-										<table id="tbl" class="table table-hover display  pb-30" >
+										<table id="branchlist" class="table table-hover display  pb-30" >
 											<thead>
 												<tr>
 													<th>Registration No</th>
